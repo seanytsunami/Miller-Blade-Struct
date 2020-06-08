@@ -1,23 +1,25 @@
 function asdf = eigenmode(x, EI1, EI2, beta, v, mass)
 
 %{
-  Function: eigenmode(x, EI1, EI2, beta, v, mass)
-  
-  Purpose: Find mode frequencies, eigenmodes, and eigenvectors
-  
-  Parameters: x (distance along blade), EI1, EI2 (y and z blade stiffness),
-  beta (twist), v (pitch), and m (sectional mass)
-  
-  Returns: omegas (mode frequencies), eigmodes (eigenmodes), eigvals
-  (eigenvalues)
-  
-  Notes:
-  - EI1 and EI2 are just modulus of elasticity multiplied by second area
-  moment of inerta --> EI1 = E*Iyy
-  - Heavy port of original code
+    Function: eigenmode(x, EI1, EI2, beta, v, mass)
+
+    Purpose: Find mode frequencies, eigenmodes, and eigenvectors
+
+    Parameters: x (distance along blade), EI1, EI2 (y and z blade
+    stiffness), beta (twist), v (pitch), and m (sectional mass)
+
+    Returns: omegas (mode frequencies), eigmodes (eigenmodes), eigvals
+    (eigenvalues)
+
+    Notes:
+    - EI1 and EI2 are just modulus of elasticity multiplied by area moment
+    of inertia --> EI1 = E*Iyy
+    - Heavy port of original Miller code
+
+    TO DO: clean up for consistency
 %}
 
-%% Initial Variables
+%% Initial variables
 % define loop iterations
 nj = max(size(x));
 
@@ -28,7 +30,7 @@ pz = zeros(nj,1);
 flexm = zeros(2*nj-2,2*nj-2);
 massm = flexm;
 
-%% Calculation of eigvectors and eigmodes
+%% Calculation of eigenvectors and eigenmodes
 % flexibility matrix, y loading
 for j = 2:nj
     m = 2*j-3;
@@ -38,12 +40,12 @@ for j = 2:nj
     flexy = deflecfxf(x,EI1,EI2,beta,v,py,pz);
     py(j)=0.0;
     pz(j)=0.0;
-    for j = 2:nj %Save into flex. matrix
-        n = 2*j-3;
+    for k = 2:nj %Save into flex. matrix
+        n = 2*k-3;
         %flexm(n,m) = uy(j);
         %flexm(n+1,m) = uz(j);
-        flexm(n,m) = flexy(j, 1);
-        flexm(n+1,m) = flexy(j, 2);
+        flexm(n,m) = flexy(k, 1);
+        flexm(n+1,m) = flexy(k, 2);
     end
 end
 
@@ -56,16 +58,16 @@ for j = 2:nj
     flexz = deflecfxf(x,EI1,EI2,beta,v,py,pz);
     py(j)=0.0;
     pz(j)=0.0;
-    for j = 2:nj %Save into flex. matrix
-        n = 2*j-3;
+    for k = 2:nj %Save into flex. matrix
+        n = 2*k-3;
         %flexm(n,m) = uy(j);
         %flexm(n+1,m) = uz(j);
-        flexm(n,m) = flexz(j, 1);
-        flexm(n+1,m) = flexz(j, 2);
+        flexm(n,m) = flexz(k, 1);
+        flexm(n+1,m) = flexz(k, 2);
     end
 end
 
-% Mass Matrix %
+%% Mass Matrix
 for j = 2:nj
     n = 2*j-3;
     massm(n,n) = mass(j);
@@ -74,7 +76,7 @@ end
 
 [V,D] = eigs(flexm*massm,nj);
 
-%Evalues/Evectors%
+%% Eigenvalues and eigenvectors
 omegas = sqrt(1./(D*ones(nj,1)));
 uyev = zeros(nj,nj);
 uzev = uyev;
@@ -85,8 +87,10 @@ for j=2:nj
     uzev(j,1:nj)=-V(n+1,1:nj);
 end
 
+%% Debug
 omegas;
 uyev;
 uzev;
 
-asdf = [omegas, uyev, uzev];
+%% Return
+asdf = [omegas, uyev, uzev]; % returns [nj x 1, nj x nj, nj x nj]
