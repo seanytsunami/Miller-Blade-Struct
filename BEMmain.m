@@ -42,12 +42,19 @@ sR = csvread('Airfoils/shittyrectangle2.csv', 1);
 %% I-Beam
 IB = csvread('Airfoils/IBeam.csv', 1);
 
+%% Generic chord and twist distributions
+cdistr = ones(10, 1);
+betadistr = zeros(10, 1);
+
+% cdistr = linspace(1, 2, 10);
+% betadistr = linspace(0, pi, 10);
+
 %% Function calls
 asdf = deflecfxf(x, EI1, EI2, beta, v, py, pz); % call deflec function
 jkl = eigenmode(x, EI1, EI2, beta, v, m); % call eigenmode function
-% qwerty = propGenFoil(ndc, 0, 0);
-qwerty2 = propGenFoil(sR, 0, 0)
-% qwerty3 = propGenFoil(IB, 0, 0)
+% qwerty = propGenFoil(ndc, 1, 0);
+qwerty2 = propGenFoil(sR, cdistr, betadistr)
+% qwerty3 = propGenFoil(IB, 1, 0)
 
 rectangleIzzIyy = ([0.04 * 1^3 / 12, 0.04^3 * 1 / 12])
 

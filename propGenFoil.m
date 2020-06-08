@@ -4,18 +4,18 @@ function asdf = propGenFoil(af, c, beta)
     Function: propGenFoil(af, c, beta)
 
     Purpose: Find section area moments of inertias in Z (flapwise) and Y
-    (edgewise) directions
+    (edgewise) directions AND product of inertia
 
     Parameters: af (airfoil geometry), c (chord at each span), beta (twist
     at each span)
 
-    Returns: IzzS, IyyS (second area moments of inertias at each point
-    along the span)
+    Returns: IzzSX, IyySX, IyzSX (product and area moments of inertia at
+    each station along span/radius)
 
-    Notes: Adjust input parameters so they give data at each point along
+    Notes: 
+
+    TO DO: Adjust input parameters so they give data at each point along
     the span
-
-    TO DO: incorporate twist, chord length per section
 %}
 
 %% Method for calculating area moment of inertia
@@ -27,18 +27,22 @@ function asdf = propGenFoil(af, c, beta)
 % - Account for sectional twist by using a coordinate system transformation
 % - Do this for all airfoil sections along the blade/wing span
 
+%% Pseudo exception handling
+if max(size(c)) ~= max(size(beta))
+    disp('The sizes of c and beta do not match. Exiting function...')
+    asdf = [NaN, NaN, NaN];
+    return
+end
+
 %% Initial variables
 % define matrix sizes and loop iterations
 nj = max(size(af));
 mid = ((nj)/2 + 0.5);
+span = max(size(c));
 
 % separate airfoil geometry file into upper and lower surfaces
 upper = flipud(af(1:mid, :));
 lower = af(mid:nj, :);
-
-% initialize Z and Y neutral axes
-zbar = 0; 
-ybar = 0;
 
 % initialize arrays
 Izzn = zeros(mid, 1); % moment of inertia for each rectangle
@@ -49,46 +53,71 @@ An = zeros(mid-1, 1); % area for each rectangle
 zbarn = zeros(mid-1, 1); % centroid for each rectangle
 ybarn = zeros(mid-1, 1);
 
-IzzS = 0; % total moment of inertia for each airfoil section
-IyyS = 0;
+IzzS = zeros(span, 1); % total moments of inertia for each airfoil section
+IyyS = zeros(span, 1);
+IyzS = zeros(span, 1); % product of inertia for each airfoil section
 
-%% Calculate rectangular moments of inertia and intermediate values
-for j=1:1:mid-1
-    % calculate rectangle base and height
-    b = upper(j+1, 1) - upper(j, 1); 
-    h = upper(j+1, 2) - lower(j+1, 2);
+IzzSX = zeros(span, 1); % total moments of inertia for each airfoil section
+IyySX = zeros(span, 1);
+IyzSX = zeros(span, 1); % product of inertia for each airfoil section
+
+%% Loop through span/radial stations
+for k=1:1:span
+
+% initialize/redefine Z and Y neutral axes
+zbar = 0;
+ybar = 0;
+
+    %% Scale airfoil by chord length
+    upperc = upper.*c(k);
+    lowerc = lower.*c(k);
     
-    % calculate area of rectangle
-    An(j) = b*h; 
+    %% Calculate rectangular moments of inertia and intermediate values
+    for j=1:1:mid-1
+        % calculate rectangle base and height
+        b = upperc(j+1, 1) - upperc(j, 1);
+        h = upperc(j+1, 2) - lowerc(j+1, 2);
+        
+        % calculate area of rectangle
+        An(j) = b*h;
+        
+        % calculate centroid of each individual rectangle
+        zbarn(j) = (upperc(j+1, 2) + lowerc(j+1, 2))/2;
+        ybarn(j) = (upperc(j+1, 1) + upperc(j, 1))/2;
+        
+        % update numerator for neutral axis calculation
+        zbar = zbar + ((b*h)*(zbarn(j)));
+        ybar = ybar + ((b*h)*(ybarn(j)));
+        
+        % calculate rectangle moments of inertia
+        Izzn(j) = (h*b^3)/12;
+        Iyyn(j) = (b*h^3)/12;
+    end
     
-    % calculate centroid of each individual rectangle
-    zbarn(j) = (upper(j+1, 2) + lower(j+1, 2))/2; 
-    ybarn(j) = (upper(j+1, 1) + upper(j, 1))/2;
+    %% Calculate neutral axes locations
+    zbar = zbar/sum(An, 'all');
+    ybar = ybar/sum(An, 'all');
     
-    % update numerator for neutral axis calculation
-    zbar = zbar + ((b*h)*(zbarn(j))); 
-    ybar = ybar + ((b*h)*(ybarn(j)));
+    %% Calculate total product and moments of inertia from composite rectangles
+    for j=1:1:mid-1
+        % calculate product of inertia
+        IyzS(k) = IyzS(k) + (An(j)*(ybarn(j) - ybar)*(zbarn(j) - zbar));
+        
+        % calculate moments of inertia
+        IzzS(k) = IzzS(k) + (Izzn(j) + ((An(j))*abs((ybarn(j)) - ybar)^2));
+        IyyS(k) = IyyS(k) + (Iyyn(j) + ((An(j))*abs((zbarn(j)) - zbar)^2));
+    end
     
-    % calculate rectangle moments of inertia
-    Izzn(j) = (h*b^3)/12; 
-    Iyyn(j) = (b*h^3)/12;
+    %% Transform sectional product and moments of inertia
+    IzzSX(k) = (IyyS(k) + IzzS(k))/2 - (IyyS(k) - IzzS(k))/2*cos(2*beta(k))...
+        + IyzS(k)*sin(2*beta(k));
+    IyySX(k) = (IyyS(k) + IzzS(k))/2 + (IyyS(k) - IzzS(k))/2*cos(2*beta(k))...
+        - IyzS(k)*sin(2*beta(k));
+    
+    IyzSX(k) = (IyyS(k) -  IzzS(k))/2*sin(2*beta(k)) + IyzS(k)*cos(2*beta(k));
+    
 end
-
-%% Calculate neutral axes locations
-zbar = zbar/sum(An, 'all');
-ybar = ybar/sum(An, 'all');
-
-%% Calculate total moment of inertia from composite rectangles
-for j=1:1:mid-1
-    IzzS = IzzS + (Izzn(j) + ((An(j))*abs((ybarn(j)) - ybar)^2));
-    IyyS = IyyS + (Iyyn(j) + ((An(j))*abs((zbarn(j)) - zbar)^2)); 
-end
-
-%% Transform sectional moment of inertia
-IzzSX = (IyyS + IzzS)/2 - (IyyS - IzzS)/2*cos(2*beta);
-IyySX = (IyyS + IzzS)/2 + (IyyS - IzzS)/2*cos(2*beta);
-
 %% Debug
 
 %% Return
-asdf = [IzzS, IyyS];
+asdf = [IzzSX, IyySX, IyzSX];
