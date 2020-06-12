@@ -52,15 +52,27 @@ betadistr = zeros(10, 1);
 %% Function calls
 asdf = deflecfxf(x, EI1, EI2, beta, v, py, pz); % call deflec function
 jkl = eigenmode(x, EI1, EI2, beta, v, m); % call eigenmode function
-% qwerty = propGenFoil(ndc, 1, 0);
-qwerty2 = propGenFoil(sR, cdistr, betadistr)
-% qwerty3 = propGenFoil(IB, 1, 0)
 
-rectangleIzzIyy = ([0.04 * 1^3 / 12, 0.04^3 * 1 / 12])
+qwerty = propGenFoil(ndc, 1, 0);
+qwerty2 = propGenFoil(sR, cdistr, betadistr);
+rectangleIzzIyy = ([0.04 * 1^3 / 12, 0.04^3 * 1 / 12]);
+qwerty3 = propGenFoil(IB, 1, 0);
+
+sep = foilSep(ndc);
 
 %% Prints
 
 %% Plotting
+%% Separated Airfoil
+% plot(sep(:,1), sep(:,2))
+% hold on
+% plot(sep(:,3), sep(:,4))
+% axis([0, 1, -0.3, 0.3])
+% title('NACA 2412');
+% xlabel('$\frac{x}{c}$', 'Interpreter', 'latex');
+% ylabel('y');
+% legend('upper', 'lower')
+
 %% Y eigenmodes
 % figure('name', 'flapwise z')
 % for j=2:1:13
@@ -68,21 +80,21 @@ rectangleIzzIyy = ([0.04 * 1^3 / 12, 0.04^3 * 1 / 12])
 %     if md == 0
 %         plot(x, jkl(:,j))
 %         hold on
-%
+% 
 %     end
 %     for n=1:6
 %         leg{n}=sprintf('mode%d',n);
 %     end
 % end
 % legend(leg);
-%
+% 
 % figure('name', 'flapwise y')
 % for j=2:1:13
 %     md = mod(j,2);
 %     if md == 1
 %         plot(x, jkl(:,j))
 %         hold on
-%
+% 
 %     end
 %     for n=1:6
 %         leg{n}=sprintf('mode%d',n);
