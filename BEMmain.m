@@ -17,6 +17,7 @@ EI1 = bladeProp(:,3);
 EI2 = bladeProp(:,4);
 beta = bladeProp(:,11) - bladeProp(:,10);
 v = bladeProp(:,10);
+% m = bladeProp(:,6).*bladeProp(:,1);
 
 m = ones(12); % arbitrary mass values
 py = ones(12); % arbitrary load values
@@ -35,6 +36,7 @@ pz = ones(12);
 
 %% NACA 2412 reference case
 ndc = csvread('Airfoils/naca2412.csv', 1);
+ndc2 = csvread('Airfoils/naca2412-2.csv', 1);
 
 %% Shitty Rectangle
 sR = csvread('Airfoils/shittyrectangle2.csv', 1);
@@ -42,21 +44,30 @@ sR = csvread('Airfoils/shittyrectangle2.csv', 1);
 %% I-Beam
 IB = csvread('Airfoils/IBeam.csv', 1);
 
+%% Oval
+oval = csvread('Airfoils/Oval.csv', 1);
+
 %% Generic chord and twist distributions
 cdistr = ones(10, 1);
-betadistr = zeros(10, 1);
+twistdistr = zeros(10, 1);
 
 % cdistr = linspace(1, 2, 10);
-% betadistr = linspace(0, pi, 10);
+% twistdistr = linspace(0, pi, 10);
 
 %% Function calls
 asdf = deflecfxf(x, EI1, EI2, beta, v, py, pz); % call deflec function
 jkl = eigenmode(x, EI1, EI2, beta, v, m); % call eigenmode function
 
-qwerty = propGenFoil(ndc, 1, 0);
-qwerty2 = propGenFoil(sR, cdistr, betadistr);
+NACA2412Prop = propGenFoil(ndc, 1, 0)
+NACA2412Prop2 = propGenFoil2D(ndc, ndc2, 1, 0)
+
+RectProp = propGenFoil(sR, cdistr, twistdistr);
 rectangleIzzIyy = ([0.04 * 1^3 / 12, 0.04^3 * 1 / 12]);
-qwerty3 = propGenFoil(IB, 1, 0);
+
+IBeamProp = propGenFoil(IB, 1, 0);
+
+OvalProp = propGenFoil(oval, 1, 0);
+OvalIzzIyy = ([pi/4*0.5^3*0.25, pi/4*0.5*0.25^3]);
 
 sep = foilSep(ndc);
 
@@ -160,9 +171,16 @@ sep = foilSep(ndc);
 % legend('flapwise z', 'flapwise y', 'edgewise z', 'edgewise y');
 
 %% NACA 2412 chord distribution
-% plot(ndc(:, 1), ndc(:, 2))
-% ylim([-0.3, 0.3]);
+plot(ndc(:, 1), ndc(:, 2))
+hold on
+plot(ndc2(:, 1), ndc2(:, 2))
+ylim([-0.3, 0.3]);
+hold off
 
 %% Shitty rectangle
 % plot(sR(:,1), sR(:,2), 'b')
 % axis([-0.1 1.1 -0.025 0.025])
+
+%% Oval
+% plot(oval(:,1), oval(:,2), 'b')
+% axis([0, 1, -0.5, 0.5])
