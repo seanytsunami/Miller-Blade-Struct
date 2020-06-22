@@ -1,5 +1,24 @@
 function asdf = matrixloader(tlines, datalog, nvars)
 
+%{
+    Function: matrixloader(tlines, datalog, nvars)
+
+    Purpose: Loads variables from identified sections of xturb output files
+    into matrices.
+
+    Parameters:
+    - tlines (xturb output file read into a cell array)
+    - dataLog (logical array for respective data set)
+    - nvars (number of expected variables/columns)
+
+    Returns:
+    - dlines (matrix containing data corresponding to datalog)
+
+    Notes:
+
+    TO DO:
+%}
+
 %% Initial variables
 % convert tlines to strlines if necessary
 strlines = string(tlines);
