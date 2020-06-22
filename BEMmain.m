@@ -1,7 +1,7 @@
 %{
     Name: BEMmain
 
-    Purpose: The purpose of the main class is to validate the working order
+    Purpose: The purpose of the main function is to validate the working order
     of the BEM code via function calls and plots
     
     Written by: Sean Wang
@@ -34,6 +34,14 @@ pz = ones(12);
 % py = zeros(xlength);
 % pz = ones(xlength);
 
+%% Sample file paths
+f00 = "XTurb/2to25/XTurb_Output.dat";
+f0 = "XTurb/cd0jx31/XTurb_Output.dat";
+f10 = "XTurb/2to25/XTurb_Output1.dat";
+f1 = "XTurb/cd0jx31/XTurb_Output1.dat";
+f2 = "XTurb/cd0jx31/XTurb_Output2.dat";
+f3 = "XTurb/cd0jx31/XTurb_Output3.dat";
+
 %% NACA 2412 reference case
 ndc = csvread('Airfoils/naca2412.csv', 1);
 ndc2 = csvread('Airfoils/naca2412-2.csv', 1);
@@ -58,7 +66,7 @@ twistdistr = zeros(10, 1);
 asdf = deflecfxf(x, EI1, EI2, beta, v, py, pz); % call deflec function
 jkl = eigenmode(x, EI1, EI2, beta, v, m); % call eigenmode function
 
-NACA2412Prop = propGenFoil(ndc, 1, 0)
+NACA2412Prop = propGenFoil(ndc, 1, 0) % property generator
 NACA2412Prop2 = propGenFoil2D(ndc, ndc2, 1, 0)
 
 RectProp = propGenFoil(sR, cdistr, twistdistr);
@@ -69,7 +77,9 @@ IBeamProp = propGenFoil(IB, 1, 0);
 OvalProp = propGenFoil(oval, 1, 0);
 OvalIzzIyy = ([pi/4*0.5^3*0.25, pi/4*0.5*0.25^3]);
 
-sep = foilSep(ndc);
+sep = foilSep(ndc); % airfoil separator
+
+xturbreader(f1) % xturb reader
 
 %% Prints
 

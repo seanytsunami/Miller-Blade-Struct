@@ -3,9 +3,9 @@ function xturbreader(filePath)
 %{
     Function: xturbreader(filePath)
 
-    Purpose: Extract data from "XTurb_Output1.dat" and write to .csv
+    Purpose: Extract data from "XTurb_Output[_-3].dat" and write to .csv
 
-    Parameters: 
+    Parameters:
     - filePath (string specifying file path of output file)
 
     Returns: None, void function. Writes .csv to function working directory
@@ -14,29 +14,35 @@ function xturbreader(filePath)
     - COMPATIBLE WITH XTurb-PSU-g77 ONLY [other versions untested]
 
     TO DO:
-    - Wrap up code
-    - CLEAN UP FOR CONSISTENCY
-    - Increase compatibility for any XTurb_Output[X].dat
-        - Create respective functions
+    - Differentiate radial stations from prediction mode test cases for
+    output0
+    - Add operation modes to xturbreader.m (?)
+        - Allow user to specify where to save .csv
+    - Clean up code and optimize algorithm in the long term
 %}
 
-clear; clc;
-
 %% Initial variables
-% sample file paths
-f1 = "XTurb/2to25/XTurb_Output1.dat";
-f2 = "XTurb/cd0jx31/XTurb_Output1.dat";
+f = filePath;
 
-% create variable headers
+% define variable headers
+output0 = ["VWIND[m/s]", "RPM[1/min]", "TSR", "PITCH[deg]", "CT", "CP",...
+    "CB", "T[N]", "P[W]", "TO[Nm]", "BE[Nm]"];
 output123 = ["TSR", 'PITCH [deg]', 'CT', 'CP', 'CPV', 'CB', 'CBV'];
-output1 = ["r/R", 'Chord/R', 'Twist [deg]', 'AOA [deg]', 'PHI [deg]', 'CL',...
+output1 = ["r/R", 'Chord/R', 'Twist [deg]', 'AOA [deg]', 'PHI [deg]',...
+    'CL',...
     'CD', 'CL/CD', 'VSEC', 'VSECX', 'VSECY', 'VSECZ', 'Re'];
+output2 = ["r/R", 'Chord/R', 'Twist [deg]', 'AOA [deg]', 'CL', 'CD',...
+    'CDP', 'CM', 'CThrust', 'CTorque', 'CNormal', 'CTangen'];
+output3 = ["r/R", 'Chord/R', 'Twist [deg]', 'AOA [deg]', 'PHI [deg]',...
+    'CL', 'CD', 'CL/CD', 'CThrust', 'CThrustV', 'CTorque', 'CTorqueV',...
+    'CBending', 'CBendingV'];
+vwind = ["VWIND [m/s]", "RPM [1/m]", "PITCH [deg]"];
+predict = ["BRADIUS [m]", "RHOAIR [kg/m**3.]", "MUAIR [kg/(m*s)]"];
 
 %% Open file
-fid = fopen(f2);
-% fid = fopen(filePath);
+fid = fopen(f);
 
-%% Read line-by-line, define variables
+%% Read output file line-by-line, assigns tline to cell array tlines
 nlines = 0;
 tline = fgetl(fid);
 tlines = cell(0,1);
@@ -46,103 +52,126 @@ while ischar(tline)
     % increment counter
     nlines = nlines + 1;
     
-    % load current tline into column vector
+    % load current tline into column vector tlines
     tlines{end+1,1} = tline;
     
     % increment tline
     tline = fgetl(fid);
 end
 
-% convert tline cells to strings
-strlines = string(tlines);
+%% Use xturbparser to find data locations from tlines
+s = xturbparser(tlines, nlines); % struct return
 
-t
-% find the tlines entries that contain output1 data
-output1Log = ~cellfun(@isempty,...
-    regexp(tlines,'  0.0000  ','match','once')); % logical
-output1Bin = double(output1Log);
-
-% find how many radial stations
-rstations = 0;
-for j=1:1:nlines
-    if  (output1Log(j) & not(output1Log(j + 1)))
-        rstations = rstations + 1;
-        break
-    elseif output1Log(j)
-        rstations = rstations + 1;
-    end
+%% Alter values based on file type
+% define variable header sizes and specify which header to use
+headersize = NaN;
+switch s.fileType
+    case 0
+        headersize = 11;
+        outputHeader = output0;
+    case 1
+        headersize = 13;
+        outputHeader = output1;
+    case 2
+        headersize = 12;
+        outputHeader = output2;
+    case 3
+        headersize = 14;
+        outputHeader = output3;
 end
 
-% find the tline entries that contain TSR
-output123Log = ~cellfun(@isempty,...
-    regexp(tlines,'Number   TSR','match','once'));
-output123Bin = zeros(max(size(output123Log)), 1);
-for j=1:1:nlines
-    if output123Log(j)
-        output123Bin(j+1) = 1;
-    end
-end
-output123Log = logical(output123Bin);
-
-% find the tline entries that contain prediction parameters
-predictLog = ~cellfun(@isempty,...
-    regexp(tlines,'  PREDICTION','match','once'));
-predictBin = zeros(max(size(output123Log)), 1);
-for j=1:1:nlines
-    if predictLog(j)
-        predictBin(j+2) = 1;
-    end
-end
-predictLog = logical(predictBin);
-
-%% Test function xturbparser.m
-testStructOut = xturbparser(tlines, nlines);
-
-%% Load arrays with data from identified rows in tlines
-% load floats into output1 matrix (extract floats from string array)
-counter = 0;
-dlines = zeros(sum(output1Log), 13);
-for j=1:1:nlines
-    if output1Log(j)
-        counter = counter + 1;
-        dlines(counter, :) = str2double(regexp(strlines(j),'\-?\d*\.\d*','match')');
-    end
-end
-
-% load floats into output123 matrix (extract floats from string array)
-counter = 0;
-O123lines = zeros(sum(output123Log), 7);
-for j=1:1:nlines
-    if output123Log(j)
-        counter = counter + 1;
-        O123lines(counter, :) = str2double(regexp(strlines(j),'\d*\.\d*','match')');
-    end
-end
-
-% create formatted output123 matrix (in variable O123lines2)
-O123lines2 = ones(length(dlines(:, 1)), length(O123lines(1, :)));
-for j=1:1:length(dlines(:, 1))
-    if rem(j, rstations) == 0
-        O123lines2(j,:) = O123lines(j/rstations, :);
-    else
-        O123lines2(j,:) = O123lines((fix(j/rstations) + 1), :);
-    end
+%% Determine what to do based upon xturb output file type (s.fileType)
+if s.fileType
+    %% For output[1-3]
+    % load bulk data (see headers)
+    dlines = matrixloader(tlines, s.output1logical, headersize);
+    
+    % load output123 data (see header)
+    O123lines = matrixloader(tlines, s.output123logical, 7);
+    
+    % load vwind, rpm, pitch data
+    vwindlines = matrixloader(tlines, s.vwindlogical, 3);
+    
+    % load prediction data (see header)
+    predictlines = matrixloader(tlines, s.predictionlogical, 3);
+    
+    % format certain matrices to match bulk data
+    O123linesF = matrixformatter(O123lines, dlines, s.rstations);
+    vwindlinesF = matrixformatter(vwindlines, dlines, s.rstations);
+    predictlinesF = matrixformatter(predictlines, dlines, s.rstations);
+    
+    % finalize headers and numbers
+    headers = [vwind(:, 1:2), output123, outputHeader];
+    numbers = [vwindlinesF(:, 1:2), O123linesF, dlines];
+else
+    %% For output0
+    % load identified bulk data into output matrix
+    output0lines = matrixloader(tlines, s.output0logical, headersize);
+    
+    % finalize headers and numbers
+    headers = [outputHeader];
+    numbers = [output0lines];
 end
 
 %% Finalize outputs
-% create final matrix and final table
-headers = [output123, output1];
-numbers = [O123lines2, dlines];
 endmatrix = [headers; numbers];
 endtable = cell2table(num2cell(numbers),'VariableNames', headers);
 
+%% Prepare output .csv file name
+% create strings
+mode = "Prediction";
+JX = string(s.rstations);
+% ^^^ JX unused until radial stations differentiated from test cases
+outputType = string(s.fileType);
+if not(s.fileType)
+    outputType = "";
+end
+
+% identify airfoil name
+afline = ~cellfun(@isempty,...
+    regexp(tlines,'***** XTurb-PSU ','match','once'));
+for j=1:1:nlines
+    if afline(j)
+        afchar = regexp(string(tlines(j)),'[^\s]','match')';
+    end
+end
+afname = "";
+for j=1:1:max(size(afline))
+    if afchar(j) == "*"
+        break
+    end
+    afname = strcat(afname, afchar(j));
+end
+
+%% Create file name
+% contatenate file name elements
+fileName = strcat(afname, "_", mode, "_", "Output", outputType);
+checkName = strcat(fileName, ".csv");
+
+% check if file with same name exists, adjust by adding ... (1-9999)...
+if isfile(checkName)
+    for j=1:1:9999
+        sameName = fileName;
+        sameName = strcat(fileName, " ", "(", string(j), ")", ".csv");
+        if not(isfile(sameName))
+            fileName = strcat(fileName, " ", "(", string(j), ")");
+            break
+        end
+    end
+end
+
 %% Write endtable to .csv
-writetable(endtable, 'testTable.csv');
+fileName = strcat(fileName, ".csv"); % file type
+writetable(endtable, fileName);
+
+% prints to validate working order
+disp("xturbreader.m:");
+disp(strcat("- Created ", fileName));
+disp("done");
 
 %% Close file
 fclose(fid);
 
 %% Debug
-% type XTurb/2to25/XTurb_Output.dat
 
 end
