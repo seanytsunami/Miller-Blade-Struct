@@ -23,9 +23,6 @@ function asdf = xturbparser(tlines, nlines)
 
     Notes:
     - ONLY WORKS WITH PREDICTION MODE RIGHT NOW
-    - outputLog and output0Log are the only column vectors that identify
-    actual data locations, the rest of the logical column vectors specify
-    header locations whose actual data is extracted by matrixloader.m
 
     TO DO:
     - Differentiate radial stations from prediction mode test cases for
