@@ -56,7 +56,7 @@ end
 %% Identify tlines entries containing bulk data for output[1-3]
 % find tlines entries that contain doubles
 outputDoubleLog = ~cellfun(@isempty,...
-    regexp(tlines,'\d*\.\d*','match')); % logical
+    regexp(tlines,'\-?\d*\.\d*','match')); % logical
 outputDoubleBin = double(outputDoubleLog);
 
 % find row before bulk data for XTurb_Output[1-3].dat

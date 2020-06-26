@@ -1,9 +1,9 @@
 %{
-    Name: BEMmain
+    Function: BEMmain
 
     Purpose: The purpose of the main function is to validate the working order
     of the BEM code via function calls and plots
-    
+
     Written by: Sean Wang
 %}
 
@@ -35,42 +35,56 @@ pz = ones(12);
 % pz = ones(xlength);
 
 %% Sample file paths
-f00 = "XTurb/2to25/XTurb_Output.dat";
+g0 = "XTurb/2to25/XTurb_Output.dat";
+g1 = "XTurb/2to25/XTurb_Output1.dat";
 f0 = "XTurb/cd0jx31/XTurb_Output.dat";
-f10 = "XTurb/2to25/XTurb_Output1.dat";
 f1 = "XTurb/cd0jx31/XTurb_Output1.dat";
 f2 = "XTurb/cd0jx31/XTurb_Output2.dat";
 f3 = "XTurb/cd0jx31/XTurb_Output3.dat";
 
 %% NACA 2412 reference case
 ndc = csvread('Airfoils/naca2412.csv', 1);
-ndc2 = csvread('Airfoils/naca2412-2.csv', 1);
 
 %% Shitty Rectangle
-sR = csvread('Airfoils/shittyrectangle2.csv', 1);
+r = csvread('Airfoils/rectangle.csv', 1);
+
+%% Zero line
+zl = csvread('Airfoils/zeroline.csv', 1);
 
 %% I-Beam
 IB = csvread('Airfoils/IBeam.csv', 1);
 
 %% Oval
 oval = csvread('Airfoils/Oval.csv', 1);
+circle = table2array(readtable("Airfoils/circle.csv"));
+circle2 = table2array(readtable("Airfoils/circle2.csv"));
 
 %% Generic chord and twist distributions
 cdistr = ones(10, 1);
-twistdistr = zeros(10, 1);
+% twistdistr = zeros(10, 1);
 
 % cdistr = linspace(1, 2, 10);
-% twistdistr = linspace(0, pi, 10);
+twistdistr = linspace(0, pi, 10);
 
 %% Function calls
 asdf = deflecfxf(x, EI1, EI2, beta, v, py, pz); % call deflec function
 jkl = eigenmode(x, EI1, EI2, beta, v, m); % call eigenmode function
 
-NACA2412Prop = propGenFoil(ndc, 1, 0) % property generator
-NACA2412Prop2 = propGenFoil2D(ndc, ndc2, 1, 0)
+ndci = afinterp(ndc, 'makima'); % airfoil interpolator
 
-RectProp = propGenFoil(sR, cdistr, twistdistr);
+% NACA2412Prop = propGenFoil(ndc, 1, 0) % property generator
+% NACA2412Prop2 = propGenFoil2D(ndc, ndc2, 1, 0)
+% NACA2412Prop21 = propGenFoil2D(ndc, ndc3, 1, 0)
+% NACA2412Prop22 = afpropgen(ndc, ndc3, 1, 0, 0)
+
+RectProp = propGenFoil(r, 1, 0);
+rp2 = afpropgen(r, zl, 1, 0, 0)
 rectangleIzzIyy = ([0.04 * 1^3 / 12, 0.04^3 * 1 / 12]);
+
+% circlep = propGenFoil(circle, 1, 0)
+% circlep2 = afpropgen(circle, R2, 1, 0, 0)
+% donut = afpropgen(circle, circle2, 1, 0, 0)
+
 
 IBeamProp = propGenFoil(IB, 1, 0);
 
@@ -79,7 +93,7 @@ OvalIzzIyy = ([pi/4*0.5^3*0.25, pi/4*0.5*0.25^3]);
 
 sep = foilSep(ndc); % airfoil separator
 
-xturbreader(f1) % xturb reader
+% xturbreader(f1) % xturb reader
 
 %% Prints
 
@@ -181,11 +195,11 @@ xturbreader(f1) % xturb reader
 % legend('flapwise z', 'flapwise y', 'edgewise z', 'edgewise y');
 
 %% NACA 2412 chord distribution
-plot(ndc(:, 1), ndc(:, 2))
-hold on
-plot(ndc2(:, 1), ndc2(:, 2))
-ylim([-0.3, 0.3]);
-hold off
+% plot(ndc(:, 1), ndc(:, 2))
+% hold on
+% plot(ndc2(:, 1), ndc2(:, 2))
+% ylim([-0.3, 0.3]);
+% hold off
 
 %% Shitty rectangle
 % plot(sR(:,1), sR(:,2), 'b')

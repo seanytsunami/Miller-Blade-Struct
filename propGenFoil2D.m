@@ -96,9 +96,11 @@ ybar = 0;
     for j=1:1:mid-1
         % calculate rectangle base and height
         b = upperc(j+1, 1) - upperc(j, 1);
-        h = upperc(j+1, 2) - lowerc(j+1, 2);
+        h = (upperc(j, 2) - lowerc(j, 2)...
+            + upperc(j+1, 2) - lowerc(j+1, 2))/2;
         nb = nupperc(j+1, 1) - nupperc(j, 1); % negative space
-        nh = nupperc(j+1, 2) - nlowerc(j+1, 2);
+        nh = (nupperc(j, 2) - nlowerc(j, 2)...
+            + nupperc(j+1, 2) - nlowerc(j+1, 2))/2;
         
         % calculate area of rectangle
         An(j) = b*h;

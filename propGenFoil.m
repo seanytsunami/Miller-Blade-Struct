@@ -37,12 +37,16 @@ end
 %% Initial variables
 % define matrix sizes and loop iterations
 nj = max(size(af));
-mid = ((nj)/2 + 0.5);
+mid = (nj)/2;
+if rem(max(size(af)), 2) == 1
+    mid = ((nj)/2 + 0.5);
+end
 span = max(size(c));
 
 % separate airfoil geometry file into upper and lower surfaces
-upper = flipud(af(1:mid, :));
-lower = af(mid:nj, :);
+afs = foilSep(af);
+upper = afs(:, 1:2);
+lower = afs(:, 3:4);
 
 % initialize arrays
 Izzn = zeros(mid, 1); % moment of inertia for each rectangle
@@ -76,7 +80,8 @@ ybar = 0;
     for j=1:1:mid-1
         % calculate rectangle base and height
         b = upperc(j+1, 1) - upperc(j, 1);
-        h = upperc(j+1, 2) - lowerc(j+1, 2);
+        h = (upperc(j, 2) - lowerc(j, 2)...
+            + upperc(j+1, 2) - lowerc(j+1, 2))/2;
         
         % calculate area of rectangle
         An(j) = b*h;

@@ -9,18 +9,30 @@ function asdf = foilSep(af)
     Parameters: af (airfoil geometry... MUST BE ODD # stations)
 
     Returns: upper, lower (upper and lower surfaces of the airfoil)
+    
+    Dependencies:
 
     Notes: 
+    - The airfoil input file must be ORDERED with the UPPER SURFACE FIRST
+    in order for foilSep to work
+
+    TO DO:
 %}
 
 %% Separate airfoil surfaces
-% define loop iterations and midpoint
+% define loop iterations
 nj = max(size(af));
-mid = ((nj)/2 + 0.5);
 
-% separate airfoil geometry file into upper and lower surfaces
-upper = flipud(af(1:mid, :));
-lower = af(mid:nj, :);
+
+if rem(nj, 2) == 1
+    mid = ((nj)/2 + 0.5);
+    upper = flipud(af(1:mid, :));
+    lower = af(mid:nj, :);
+else
+    mid = (nj)/2;
+    upper = flipud(af(1:mid, :));
+    lower = af(mid+1:nj, :);
+end
 
 %% Return
 asdf = [upper, lower]; % [nj, nj, nj ,nj], [chord, upper, chord, lower]

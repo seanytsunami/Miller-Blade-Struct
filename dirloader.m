@@ -3,7 +3,7 @@ function asdf = dirloader(dirPath)
 %{
     Function: dirloader(dirPath)
 
-    Purpose: Load all .csv files from 
+    Purpose: Load all .csv files from
 
     Parameters:
     - dirPath (string specifying path of directory)
@@ -33,7 +33,7 @@ for j=1:1:length(cfiles(1, :))
     %% Open file
     fid = fopen(string(cfiles(1,j)));
     
-    %% Read output file line-by-line, assigns tline to cell array tlines
+    %% Read output file line-by-line, assigns tline to cell matrix tlines
     nlines = 0;
     tline = fgetl(fid);
     

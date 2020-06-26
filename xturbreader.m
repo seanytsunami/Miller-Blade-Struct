@@ -10,6 +10,11 @@ function xturbreader(filePath)
 
     Returns: None, void function. Writes .csv to function working directory
 
+    Dependencies:
+    - xturbparser.m
+    - matrixloader.m
+    - matrixformatter.m
+
     Notes:
     - COMPATIBLE WITH XTurb-PSU-g77 ONLY [other versions untested]
 

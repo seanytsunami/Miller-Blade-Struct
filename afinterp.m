@@ -4,8 +4,8 @@ function asdf = afinterp(af, method)
     Function: foilinterp(af)
 
     Purpose: Interpolates points on the upper and lower surfaces of an
-    input airfoil file and separates the upper and lower surfaces in the
-    output file
+    input airfoil file and the separates the upper and lower surfaces in
+    the output file
 
     Parameters:
     - af (raw airfoil data file OR file path)
@@ -21,6 +21,8 @@ function asdf = afinterp(af, method)
 
     Notes:
     - Functionally, this is a more feature rich version of foilSep.m
+    - This function is not a pure interpolation, it combines methods of
+    interpolation to create a more usable interpolated curve
 
     TO DO:
 %}

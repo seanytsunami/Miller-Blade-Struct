@@ -33,7 +33,7 @@ dlines = zeros(sum(datalog), nvars);
 for j=1:1:length(strlines(:,1))
     if datalog(j)
         counter = counter + 1;
-        dlines(counter, :) = str2double(regexp(strlines(j),'\d*\.\d*','match')');
+        dlines(counter, :) = str2double(regexp(strlines(j),'\-?\d*\.\d*','match')');
     end
 end
 
