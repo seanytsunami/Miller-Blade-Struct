@@ -17,10 +17,10 @@ function asdf = afinterp(af, method)
     - linterp (interpolated lower surface)
 
     Dependencies:
-    - foilSep.m
+    - afsep.m
 
     Notes:
-    - Functionally, this is a more feature rich version of foilSep.m
+    - Functionally, this is a more feature rich version of afsep.m
     - This function is not a pure interpolation, it combines methods of
     interpolation to create a more usable interpolated curve
 
@@ -33,7 +33,7 @@ if isstring(af) || ischar(af)
 end
 
 %% Separate airfoil into lower and upper surfaces
-afs = foilSep(af);
+afs = afsep(af);
 
 %% Interpolate upper and lower surfaces
 % set discretization size

@@ -16,7 +16,7 @@ function asdf = afmatinterp(afm)
 
     Dependencies:
     - afinterp.m
-        - foilSep.m
+        - afsep.m
 
     Notes:
 
@@ -29,10 +29,10 @@ afmsi = NaN(1000, length(afm(1, :)*2));
 
 %% Separate airfoils in afm into upper/lower surfaces and interpolates
 index = 1; % index to allow for 4-column-wide loading of matrix
-jndex = 1; % second index because foilSep needs 2-column-wide input
+jndex = 1; % second index because afsep needs 2-column-wide input
 
 for j=1:1:length(afm(1,:))/2 % (# of columns in afm)/2 = # of airfoils
-    % truncate NaNs from chord and upper/lower surface data for foilSep.m
+    % truncate NaNs from chord and upper/lower surface data for afsep.m
     x = afm(:, jndex);
     x(~any(~isnan(x), 2),:)=[];
     y = afm(:, jndex+1);

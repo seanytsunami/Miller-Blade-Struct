@@ -13,7 +13,7 @@ function asdf = propGenFoil(af, c, beta)
     each station along span/radius)
 
     Dependencies:
-    - foilSep.m
+    - afsep.m
 
     Notes: 
 
@@ -46,7 +46,7 @@ end
 span = max(size(c));
 
 % separate airfoil geometry file into upper and lower surfaces
-afs = foilSep(af);
+afs = afsep(af);
 upper = afs(:, 1:2);
 lower = afs(:, 3:4);
 
