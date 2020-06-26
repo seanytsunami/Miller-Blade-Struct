@@ -12,10 +12,12 @@ function asdf = propGenFoil(af, c, beta)
     Returns: IzzSX, IyySX, IyzSX (product and area moments of inertia at
     each station along span/radius)
 
+    Dependencies:
+    - foilSep.m
+
     Notes: 
 
-    TO DO: Adjust input parameters so they give data at each point along
-    the span
+    TO DO:
 %}
 
 %% Method for calculating area moment of inertia
@@ -87,7 +89,8 @@ ybar = 0;
         An(j) = b*h;
         
         % calculate centroid of each individual rectangle
-        zbarn(j) = (upperc(j+1, 2) + lowerc(j+1, 2))/2;
+        zbarn(j) = (upperc(j, 2) + lowerc(j, 2)...
+            + upperc(j+1, 2) + lowerc(j+1, 2))/4;
         ybarn(j) = (upperc(j+1, 1) + upperc(j, 1))/2;
         
         % update numerator for neutral axis calculation
