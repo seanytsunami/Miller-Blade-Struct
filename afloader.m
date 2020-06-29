@@ -1,7 +1,7 @@
 function asdf = afloader(dirPath)
 
 %{
-    Function: afloader(tlines)
+    Function: afloader2(dirPath)
 
     Purpose: Reads all airfoil .csv files from a directory and loads them 
     into a cell matrix. Then extracts airfoil geometries from the cell 
@@ -11,7 +11,7 @@ function asdf = afloader(dirPath)
     - dirPath (string specifying path of directory)
 
     Returns:
-    - afmat (double matrix containing all airfoil geometries from tlines)
+    - afmat (double matrix containing all airfoil geometries)
 
     Dependencies:
 
@@ -20,6 +20,7 @@ function asdf = afloader(dirPath)
     - use afmatinterp to extract upper and lower surfaces from afmat
 
     TO DO:
+    - Eventually combine with afloader2.m (build in operation modes)
 %}
 
 %% Load files from directory into cell array

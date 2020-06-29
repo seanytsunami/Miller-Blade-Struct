@@ -45,13 +45,28 @@ linterp = interp1(afs(:,3), afs(:, 4), x, 'linear');
 uinterpm = interp1(afs(:,1), afs(:, 2), x, method);
 linterpm = interp1(afs(:,3), afs(:, 4), x, method);
 
-% create combined interpolated matrix between 'method' and linear
-% (helpful when non-endpoint zero values appear in the input geometry file)
+%% Create combined interpolated matrix between 'method' and linear
+%(needed when non-endpoint zero values appear in the input geometry file)
 for j=1:1:length(x)
+    % check if NaN appears in any interpolations, if so set to 0
+    if isnan(uinterp(j))
+        uinterp(j) = 0;
+    end
+    if isnan(linterp(j))
+        linterp(j) = 0;
+    end
+    if isnan(uinterpm(j))
+        uinterpm(j) = 0;
+    end
+    if isnan(linterpm(j))
+        linterpm(j) = 0;
+    end
+    
+    % replace values
     if uinterp(j)
         uinterp(j) = uinterpm(j);
     end
-    if linterp(j)
+    if linterp(j) 
         linterp(j) = linterpm(j);
     end
 end

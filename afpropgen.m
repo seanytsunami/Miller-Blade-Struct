@@ -57,14 +57,16 @@ switch opmode
 end
 
 %% Interpolate main, positive space airfoil file
-afsi = afinterp(af, 'makima');
+method = "makima";
+afsi = afinterp(af, method);
 
 %% Load and process negative space
 if isstring(naf) % if naf is a file path
-    nafm = afloader(naf); % create airfoil matrix
-    nafmsi = afmatinterp(nafm); % separates and interpolates airfoil matrix
+%     nafm = afloader(naf); % create airfoil matrix
+    nafm = afloader2(naf);
+    nafmsi = afmatinterp(nafm, method); % separates and interpolates airfoil matrix
 elseif ismatrix(naf) % if naf is matrix (or single airfoil file)
-    nafmsi = afmatinterp(naf);
+    nafmsi = afmatinterp(naf, method);
 end
 numnaf = length(nafmsi(1,:))/4; % number of negative space files
 
@@ -118,6 +120,7 @@ for h=1:1:numnaf
     % increment index
     index = index + 4;
 end
+hold off
 
 %% Loop through spanwise/radial stations
 for k=1:1:span
