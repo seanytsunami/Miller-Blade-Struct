@@ -1,4 +1,4 @@
-function asdf = afmatinterp(afm)
+function asdf = afmatinterp(afm, method)
 
 %{
     Function: afmatinterp(dirPath)
@@ -38,7 +38,7 @@ for j=1:1:length(afm(1,:))/2 % (# of columns in afm)/2 = # of airfoils
     y(~any(~isnan(y), 2),:)=[];
     
     % separate airfoil into upper/lower surfaces, assign to z
-    z = afinterp([x, y], 'makima');
+    z = afinterp([x, y], method);
     
     % load matrix with separated, interpolated airfoil values
     afmsi(:, index:index+3) = z;

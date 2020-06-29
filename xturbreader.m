@@ -20,7 +20,7 @@ function xturbreader(filePath)
 
     TO DO:
     - Differentiate radial stations from prediction mode test cases for
-    output0
+    output0 (figure out why this is important)
     - Add operation modes to xturbreader.m (?)
         - Allow user to specify where to save .csv
     - Clean up code and optimize algorithm in the long term
@@ -117,6 +117,10 @@ else
     headers = [outputHeader];
     numbers = [output0lines];
 end
+
+%% Add prediction parameters for Output1 (and is specific to output1)
+headers = [predict, headers];
+numbers = [predictlinesF, numbers];
 
 %% Finalize outputs
 endmatrix = [headers; numbers];
