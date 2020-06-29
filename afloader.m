@@ -3,9 +3,9 @@ function asdf = afloader(dirPath)
 %{
     Function: afloader(tlines)
 
-    Purpose: Reads all .csv files from a directory and loads them into a
-    cell matrix. Then extracts airfoil geometries from the cell matrix and
-    outputs them into a double matrix.
+    Purpose: Reads all airfoil .csv files from a directory and loads them 
+    into a cell matrix. Then extracts airfoil geometries from the cell 
+    matrix and outputs them into a double matrix.
 
     Parameters:
     - dirPath (string specifying path of directory)
@@ -14,20 +14,48 @@ function asdf = afloader(dirPath)
     - afmat (double matrix containing all airfoil geometries from tlines)
 
     Dependencies:
-    - dirloader.m (deals with the .csv files in the directory)
 
     Notes:
     - afmat has 2 columns per airfoil [chord, lower and upper surfaces]
-    - use foilSep.m to extract upper and lower surfaces from afmat
-    - afloader.m is is a more workable version of dirloader.m
+    - use afmatinterp to extract upper and lower surfaces from afmat
 
     TO DO:
 %}
 
-%% Initial variables
-% define directory path
-tlines = dirloader(dirPath);
+%% Load files from directory into cell array
+csvfiles = dir(strcat(dirPath, "/*.csv"));
+datfiles = dir(strcat(dirPath, "/*.dat")); % .dat files not working
+cfiles = [struct2cell(csvfiles), struct2cell(datfiles)];
 
+% create empty cell array to be filled
+tlines = cell(0, length(cfiles(1, :)));
+
+%% Loop through all files in directory
+for j=1:1:length(cfiles(1, :))
+    %% Open file
+    fid = fopen(string(cfiles(1,j)));
+    
+    %% Read output file line-by-line, assigns tline to cell matrix tlines
+    nlines = 0;
+    tline = fgetl(fid);
+    
+    % read through data file
+    while ischar(tline)
+        % increment counter
+        nlines = nlines + 1;
+        
+        % load current tline into column vector tlines
+        tlines{nlines,j} = tline;
+        
+        % increment tline
+        tline = fgetl(fid);
+    end
+    
+    %% Close file
+    fclose(fid);
+end
+
+%% Process data in tlines
 % cut header off cell matrix
 b = tlines(2:end, :);
 

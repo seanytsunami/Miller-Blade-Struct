@@ -16,7 +16,6 @@ function asdf = afmatinterp(afm)
 
     Dependencies:
     - afinterp.m
-        - afsep.m
 
     Notes:
 
