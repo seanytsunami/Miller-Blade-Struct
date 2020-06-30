@@ -7,17 +7,23 @@ function asdf = matrixformatter(lines, dlines, rstations)
     dimensions with the bulk data matrix.
 
     Parameters:
-    - lines (extracted data matrix returned by matrixloader.m)
-    - dlines (bulk data matrix, used for formatting)
+    - lines (extracted data matrix returned by matrixloader.m, AKA actual 
+    data)
+    - dlines (bulk data matrix for respective data set, used for 
+    formatting)
     - rstations (number of radial stations, used for formatting)
 
     Returns:
     - flines (formatted matrix based upon data contained in lines, and
     dimensions from dlines)
 
+    Dependencies:
+
     Notes:
 
     TO DO:
+    - Sean, you need to take 10 - 15 minutes to make comments on the voodoo
+    remainder bullshit in the loading loops
 %}
 
 %% Initial variables

@@ -1,14 +1,16 @@
-function asdf = foilSep(af)
+function asdf = afsep(af)
 
 %{
-    Function: foilSep(af)
+    Function: afsep(af)
 
     Purpose: Separates the upper and lower surfaces of an input airfoil
     geometry
 
-    Parameters: af (airfoil geometry... MUST BE ODD # stations)
+    Parameters: af (airfoil geometry)
 
-    Returns: upper, lower (upper and lower surfaces of the airfoil)
+    Returns: 
+    - upper (upper surface of the airfoil)
+    - lower (lower surface of the airfoil)
     
     Dependencies:
 
@@ -22,7 +24,6 @@ function asdf = foilSep(af)
 %% Separate airfoil surfaces
 % define loop iterations
 nj = max(size(af));
-
 
 if rem(nj, 2) == 1
     mid = ((nj)/2 + 0.5);

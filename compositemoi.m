@@ -4,17 +4,28 @@ function asdf = compositemoi(Izzn, Iyyn, An, zbarn, ybarn)
     Function: compositemoi(Izzn, Iyyn, An, zbarn, ybarn)
 
     Purpose: Finds the composite product and moments of inertia in 2
-    dimensions given Areas, individual moments of inertia, and centroids.
+    dimensions given areas, individual moments of inertia, and centroids.
     This function assumes rectangular shapes in the composite moi
     calculation.
 
-    Parameters: Izzn, Iyyn (rectangle moments of inertia), An (rectangle
-    areas), zbarn, ybarn (centroid locations for rectangles)
+    Parameters: 
+    - Izzn (flapwise rectangle moment of inertia)
+    - Iyyn (edgewise rectangle moment of inertia)
+    - An (rectangle areas)
+    - zbarn (centroid locations for rectangles)
+    - ybarn ( ----------- " --------------)
 
-    Returns: Izz, Iyy (area moments of inertia), Iyz (product of inertia)
+    Returns: 
+    - Izz (flapwise area moment of inertia)
+    - Iyy (edgewise area moment of inertia) 
+    - Iyz (product of inertia)
+
+    Dependencies:
 
     Notes:
-    - ASSUMES INPUT GEOMETRIES ARE RECTANGULAR (works with propGenFoil.m)
+    - ASSUMES INPUT GEOMETRIES ARE RECTANGULAR
+
+    TO DO:
 %}
 
 %% Initial variables

@@ -1,4 +1,4 @@
-function asdf = propGenFoil(af, c, beta)
+function asdf = simplepropgen(af, c, beta)
 
 %{
     Function: propGenFoil(af, c, beta)
@@ -6,11 +6,15 @@ function asdf = propGenFoil(af, c, beta)
     Purpose: Find section area moments of inertias in Z (flapwise) and Y
     (edgewise) directions AND product of inertia
 
-    Parameters: af (airfoil geometry), c (chord at each span), beta (twist
-    at each span)
+    Parameters: 
+    - af (airfoil geometry)
+    - c (chord at each span)
+    - beta (twist at each span)
 
-    Returns: IzzSX, IyySX, IyzSX (product and area moments of inertia at
-    each station along span/radius)
+    Returns:
+    - IzzSX (flapwise area moment of inertia at radial/spanwise locations)
+    - IyySX (edgewise ---------------------- " ----------------------)
+    - IyzSX (product of inertia at radial/spanwise locations)
 
     Dependencies:
     - afsep.m

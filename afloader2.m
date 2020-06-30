@@ -53,17 +53,19 @@ end
 afmat = NaN(max, length(fpfiles)*2);
 
 %% Load afmat with airfoil values
-index = 1;
+index = 1; % index allows for 2-column-wide loading
 for j=1:1:length(fpfiles)
     if any(j==1:1:ncsv) % .csv files first
-        c = table2array(readtable(fpfiles(j)));
+        c = getafdata(fpfiles(j));
         afmat(1:length(c(:,1)), index:index+1) = c;
+        
     elseif any(j==ncsv+1:1:ncsv+ndat) % .dat next
-        d = table2array(readtable(fpfiles(j)));
-        afmat(1:length(d(2:end, :)), index:index+1) = d(2:end, :);
+        d = getafdata(fpfiles(j));
+        afmat(1:length(d(:, 1)), index:index+1) = d;
+        
     elseif any(j==ncsv+ndat+1:1:ncsv+ndat+ntxt) % .txt last
-        e = table2array(readtable(fpfiles(j)));
-        afmat(1:length(e(2:end, 1)), index:index+1) = e(2:end, :);
+        e = getafdata(fpfiles(j));
+        afmat(1:length(e(:, 1)), index:index+1) = e;
     end
     
     % increment counter

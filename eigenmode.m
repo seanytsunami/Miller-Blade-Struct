@@ -5,18 +5,29 @@ function asdf = eigenmode(x, EI1, EI2, beta, v, mass)
 
     Purpose: Find mode frequencies, eigenmodes, and eigenvectors
 
-    Parameters: x (distance along blade), EI1, EI2 (y and z blade
-    stiffness), beta (twist), v (pitch), and m (sectional mass)
+    Parameters: 
+    - x (distance along blade)
+    - EI1 (edgewise blade stiffness)
+    - EI2 (flapwise blade stiffness)
+    - beta (sectional twist)
+    - v (sectional pitch)
+    - m (sectional mass)
 
-    Returns: omegas (mode frequencies), eigmodes (eigenmodes), eigvals
-    (eigenvalues)
+    Returns: 
+    - *** FIX ***
+    - omegas (mode frequencies)
+    - eigmodes (eigenmodes)
+    - eigvals (eigenvalues)
 
     Notes:
     - EI1 and EI2 are just modulus of elasticity multiplied by area moment
     of inertia --> EI1 = E*Iyy
     - Heavy port of original Miller code
 
-    TO DO: clean up for consistency
+    TO DO: 
+    - Clean up comments
+    - Change outputs for consistency
+        - Use structure and substructures
 %}
 
 %% Initial variables

@@ -21,12 +21,16 @@ function asdf = xturbparser(tlines, nlines)
         - s.output0logical = output0Log;
     - rstations (number of radial stations)
 
+    Dependencies:
+
     Notes:
     - ONLY WORKS WITH PREDICTION MODE RIGHT NOW
 
     TO DO:
+    - investigate double detection vs int vs asterisk
+        - not sure if it will screw up and detect things it shouldn't
     - Differentiate radial stations from prediction mode test cases for
-    output0
+    output0 (see xturbreader)
     - Optimize algorithm in the long term
 %}
 

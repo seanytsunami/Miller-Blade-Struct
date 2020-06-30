@@ -6,12 +6,22 @@ function asdf = deflecfxf(x, EI1, EI2, beta, v, py, pz)
     Purpose: Find y and z deflections, y and z moments, and y and z
     deflection angles for fixed-free (fxf) boundary conditions
 
-    Parameters: x (distance along blade), EI1, EI2 (y-edgewise and
-    z-flapwise blade stiffness),beta (twist), v (pitch), py, pz (y-edgewise
-    and z-flapwise loads)
+    Parameters: 
+    - x (distance along blade) 
+    - EI1 (edgewise blade stiffness)
+    - EI2 (flapwise blade stiffness)
+    - beta (sectional twist)
+    - v (sectional pitch)
+    - py (edgewise loads)
+    - pz (flapwise loads)
 
-    Returns: y and z deflections and moments, y and z blade deflection
-    angles theta
+    Returns: 
+    - uy (edgewise deflections)
+    - uz (flapwise deflections)
+    - My (edgewise moments)
+    - Mz (edgewise moments)
+    - thetay (edgewise blade deflection angles)
+    - thetaz (flapwise blade deflection angles)
 
     Notes:
     - EI1 and EI2 are just modulus of elasticity multiplied by area moment

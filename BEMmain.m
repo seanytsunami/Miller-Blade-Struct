@@ -42,19 +42,19 @@ f1 = "XTurb/cd0jx31/XTurb_Output1.dat";
 f2 = "XTurb/cd0jx31/XTurb_Output2.dat";
 f3 = "XTurb/cd0jx31/XTurb_Output3.dat";
 
-%% NACA 2412 reference case
+
+%% "Airfoil" geometries
+% NACA 2412 reference case
 ndc = csvread('Airfoils/naca2412.csv', 1);
 
-%% Shitty Rectangle
-r = csvread('Airfoils/rectangle.csv', 1);
-
-%% Zero line
+% zero line
 zl = csvread('Airfoils/zeroline.csv', 1);
 
-%% I-Beam
+% I-Beam
 IB = csvread('Airfoils/IBeam.csv', 1);
 
-%% Oval
+% regular shapes
+r = csvread('Airfoils/rectangle.csv', 1);
 oval = csvread('Airfoils/Oval.csv', 1);
 circle = table2array(readtable("Airfoils/circle.csv"));
 circle2 = table2array(readtable("Airfoils/circle2.csv"));
@@ -72,28 +72,26 @@ jkl = eigenmode(x, EI1, EI2, beta, v, m); % call eigenmode function
 
 ndci = afinterp(ndc, 'makima'); % airfoil interpolator
 
-% NACA2412Prop = propGenFoil(ndc, 1, 0) % property generator
-% NACA2412Prop2 = propGenFoil2D(ndc, ndc2, 1, 0)
-% NACA2412Prop21 = propGenFoil2D(ndc, ndc3, 1, 0)
-% NACA2412Prop22 = afpropgen(ndc, ndc3, 1, 0, 0)
+% NACA2412Prop = simplepropgen(ndc, 1, 0) % property generator
+% NACA2412Prop22 = afpropgen(ndc, zl, 1, 0, 0)
 
-RectProp = propGenFoil(r, 1, 0);
-rp2 = afpropgen(r, zl, 1, 0, 0)
-rectangleIzzIyy = ([0.04 * 1^3 / 12, 0.04^3 * 1 / 12]);
+circlep = simplepropgen(circle, 1, 0);
+donut = afpropgen(circle, circle2, 1, 0, 0);
+donut2 = afpropgen(circle, "Airfoils/Negative2-2", 1, 0, 0)
 
-% circlep = propGenFoil(circle, 1, 0)
-% circlep2 = afpropgen(circle, R2, 1, 0, 0)
-% donut = afpropgen(circle, circle2, 1, 0, 0)
+IBeamProp = simplepropgen(IB, 1, 0);
 
-
-IBeamProp = propGenFoil(IB, 1, 0);
-
-OvalProp = propGenFoil(oval, 1, 0);
+OvalProp = simplepropgen(oval, 1, 0);
 OvalIzzIyy = ([pi/4*0.5^3*0.25, pi/4*0.5*0.25^3]);
+
+forces = xturbloads("xturbcsv");
+
+EAl = 67*1000000000;
+% defl = deflecfxf()
 
 sep = foilSep(ndc); % airfoil separator
 
-% xturbreader(f1) % xturb reader
+% xturbreader(f1, 0) % xturb reader
 
 %% Prints
 

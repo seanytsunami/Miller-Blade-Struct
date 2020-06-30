@@ -1,4 +1,4 @@
-function xturbreader(filePath)
+function xturbreader(filePath, opmode)
 
 %{
     Function: xturbreader(filePath)
@@ -20,7 +20,10 @@ function xturbreader(filePath)
 
     TO DO:
     - Differentiate radial stations from prediction mode test cases for
-    output0 (figure out why this is important)
+    output0
+        - for matrixloader, which can't tell the difference
+        - will be important if xturbreader is changed to read all xturb
+        output files
     - Add operation modes to xturbreader.m (?)
         - Allow user to specify where to save .csv
     - Clean up code and optimize algorithm in the long term
@@ -43,6 +46,15 @@ output3 = ["r/R", 'Chord/R', 'Twist [deg]', 'AOA [deg]', 'PHI [deg]',...
     'CBending', 'CBendingV'];
 vwind = ["VWIND [m/s]", "RPM [1/m]", "PITCH [deg]"];
 predict = ["BRADIUS [m]", "RHOAIR [kg/m**3.]", "MUAIR [kg/(m*s)]"];
+
+%% Identify operation mode
+switch opmode
+    case 0 % self detect mode
+    case 1 % single input-ouput mode
+    case 2 % directory input ouput mode
+    case 3 % 
+    case 4 % 
+end
 
 %% Open file
 fid = fopen(f);
