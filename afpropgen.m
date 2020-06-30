@@ -23,6 +23,7 @@ function asdf = afpropgen(af, naf, c, beta, opmode)
     - afinterp.m (interpolates and separates single airfoil file)
     - afmatinterp.m (--- " --- multiple airfoils in one array)
     - compositemoi.m (generators composite moments of inertia)
+    - afloader.m
 
     Notes:
     - replaces propGenFoil.m and propGenFoil2D.m
@@ -62,8 +63,7 @@ afsi = afinterp(af, method);
 
 %% Load and process negative space
 if isstring(naf) % if naf is a file path
-%     nafm = afloader(naf); % create airfoil matrix
-    nafm = afloader2(naf);
+    nafm = afloader(naf); % create airfoil matrix
     nafmsi = afmatinterp(nafm, method); % separates and interpolates airfoil matrix
 elseif ismatrix(naf) % if naf is matrix (or single airfoil file)
     nafmsi = afmatinterp(naf, method);

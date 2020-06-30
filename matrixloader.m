@@ -20,6 +20,7 @@ function asdf = matrixloader(tlines, datalog, nvars)
 
     TO DO:
     - ADD SUPPORT FOR ASTERISKS IN XTURB OUTPUT
+        - integer support screws things up
 %}
 
 %% Initial variables
@@ -38,7 +39,7 @@ for j=1:1:length(strlines(:,1))
         counter = counter + 1;
         dlines(counter, :) =...
             str2double(regexp(strlines(j),...
-            '\-?\d*\.\d*|\-?\d\d?\d?\d?',...
+            '\-?\d*\.\d*',...
             'match')');
     end
 end
