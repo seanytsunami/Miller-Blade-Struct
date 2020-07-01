@@ -12,14 +12,24 @@ classdef interface
         function prop = simplepropgen(af, c, beta)
             addpath('property-generator/');
             header = ["r/R", "Izz[m^4]", "Iyy[m^4]", "Iyz[m^4]",...
-                "Chord[m]", "Twist[Rad]"];
+                "Area[m^2]", "Chord[m]", "Twist[Rad]"];
             prop = [header; simplepropgen(af, c, beta)];
         end
         function prop = afpropgen(af, naf, c, beta)
             addpath('property-generator/');
             header = ["r/R", "Izz[m^4]", "Iyy[m^4]", "Iyz[m^4]",...
-                "Chord[m]", "Twist[Rad]"];
+                "Area[m^2]", "Chord[m]", "Twist[Rad]"];
             prop = [header; afpropgen(af, naf, c, beta)];
+        end
+        function xturbout = xturbreader(filePath)
+            addpath('xturb-backend/');
+            xturbout = xturbreader(filePath);
+        end
+        function xturbl = xturbloads(dirPath)
+            addpath('xturb-backend/');
+            header = ["r/R", "Fz[N]", "Fy[N]", "rho[kg/m^3]",...
+                "Vrel[m/s]", "Bradius[m]"];
+            xturbl = [header; xturbloads(dirPath)];
         end
     end
     
@@ -40,9 +50,12 @@ classdef interface
             twist0PI = "sample-files/radial-prop/twist0toPI.csv";
             
             semicircles = "sample-files/negatives/semicircles/";
+            xtout = "output";
             
-%             pspg = interface.simplepropgen(rect, chord11, twist0PI)
-%             papg = interface.afpropgen(circle, semicircles, 1, 0)
+%             xtl = interface.xturbloads(xtout)
+%             pspg = interface.simplepropgen(rect, chord11, twist00)
+            papg = interface.afpropgen(circle, zl, 1, 0)
+%             t = interface.xturbreader("sample-files/xturb1/XTurb_Output1.dat");
         end
     end
 end
