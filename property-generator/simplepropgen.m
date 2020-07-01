@@ -40,6 +40,11 @@ if max(size(c)) ~= max(size(beta))
     return
 end
 
+%% Check if af is a matrix or file path
+if isstring(af)
+    af = getafdata(af);
+end
+
 %% Initial variables
 % define matrix sizes and loop iterations
 nj = max(size(af));
