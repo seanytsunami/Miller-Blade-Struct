@@ -12,9 +12,12 @@ function asdf = simplepropgen(af, c, beta)
     - beta (twist at each span)
 
     Returns:
+    - rR (non-dimensionalized radial position or span location)
     - IzzSX (flapwise area moment of inertia at radial/spanwise locations)
     - IyySX (edgewise ---------------------- " ----------------------)
     - IyzSX (product of inertia at radial/spanwise locations)
+    - c (chord, same as input)
+    - beta (twist, same as input)
 
     Dependencies:
     - afsep.m
@@ -33,16 +36,27 @@ function asdf = simplepropgen(af, c, beta)
 % - Account for sectional twist by using a coordinate system transformation
 % - Do this for all airfoil sections along the blade/wing span
 
+%% Check if af, c, or beta is a matrix or file path
+if isstring(af) || ischar(af)
+    af = strip(af, 'left', '/');
+    af = getafdata(af);
+end
+if isstring(c) || ischar(c)
+    c = strip(c, 'left', '/');
+    c = getafdata(c);
+    c = [c(:,2), c(:,1)];
+end
+if isstring(beta) || ischar(beta)
+    beta = strip(beta, 'left', '/');
+    beta = getafdata(beta);
+    beta = [beta(:,2), beta(:,1)];
+end
+
 %% Pseudo exception handling
 if max(size(c)) ~= max(size(beta))
     disp('The sizes of c and beta do not match. Exiting function...')
-    asdf = [NaN, NaN, NaN];
+    asdf = [NaN, NaN, NaN, NaN];
     return
-end
-
-%% Check if af is a matrix or file path
-if isstring(af)
-    af = getafdata(af);
 end
 
 %% Initial variables
@@ -53,6 +67,13 @@ if rem(max(size(af)), 2) == 1
     mid = ((nj)/2 + 0.5);
 end
 span = max(size(c));
+
+% resolve r/R output variable
+if max(size(c)) == 1
+    rR = 0;
+else
+    rR = c(:, 2);
+end
 
 % separate airfoil geometry file into upper and lower surfaces
 afs = afsep(af);
@@ -84,8 +105,8 @@ zbar = 0;
 ybar = 0;
 
     %% Scale airfoil by chord length
-    upperc = upper.*c(k);
-    lowerc = lower.*c(k);
+    upperc = upper.*c(k, 1);
+    lowerc = lower.*c(k, 1);
     
     %% Calculate rectangular moments of inertia and intermediate values
     for j=1:1:mid-1
@@ -126,15 +147,15 @@ ybar = 0;
     end
     
     %% Transform sectional product and moments of inertia
-    IzzSX(k) = (IyyS(k) + IzzS(k))/2 - (IyyS(k) - IzzS(k))/2*cos(2*beta(k))...
-        + IyzS(k)*sin(2*beta(k));
-    IyySX(k) = (IyyS(k) + IzzS(k))/2 + (IyyS(k) - IzzS(k))/2*cos(2*beta(k))...
-        - IyzS(k)*sin(2*beta(k));
+    IzzSX(k) = (IyyS(k) + IzzS(k))/2 - (IyyS(k) - IzzS(k))/2*cos(2*beta(k, 1))...
+        + IyzS(k)*sin(2*beta(k, 1));
+    IyySX(k) = (IyyS(k) + IzzS(k))/2 + (IyyS(k) - IzzS(k))/2*cos(2*beta(k, 1))...
+        - IyzS(k)*sin(2*beta(k, 1));
     
-    IyzSX(k) = (IyyS(k) -  IzzS(k))/2*sin(2*beta(k)) + IyzS(k)*cos(2*beta(k));
+    IyzSX(k) = (IyyS(k) -  IzzS(k))/2*sin(2*beta(k, 1)) + IyzS(k)*cos(2*beta(k, 1));
     
 end
 %% Debug
 
 %% Return
-asdf = [IzzSX, IyySX, IyzSX];
+asdf = [rR, IzzSX, IyySX, IyzSX, c(:,1), beta(:,1)];

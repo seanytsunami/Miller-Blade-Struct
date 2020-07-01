@@ -1,4 +1,4 @@
-function asdf = afloader2(dirPath)
+function asdf = afloader(dirPath)
 
 %{
     Function: afloader2(dirPath)
@@ -23,6 +23,9 @@ function asdf = afloader2(dirPath)
 
     TO DO:
 %}
+
+%% Prepare directory path
+dirPath = strip(dirPath, 'left', '/');
 
 %% Load info from all files in directory into single cell matrix
 csvfiles = dir(strcat(dirPath, "/*.csv"));

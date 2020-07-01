@@ -19,6 +19,9 @@ function asdf = getafdata(filePath)
     TO DO:
 %}
 
+%% Prepare file path
+filePath = strip(filePath, 'left', '/');
+
 %% Read file to array
 af = table2array(readtable(filePath));
 

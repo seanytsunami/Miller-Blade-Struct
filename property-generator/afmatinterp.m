@@ -9,9 +9,10 @@ function asdf = afmatinterp(afm, method)
 
     Parameters:
     - afm (double matrix containing airfoil geometries)
+    - method (interpolation method)
 
     Returns:
-    - dirPath (double matrix containing all airfoil geometries separated into
+    - afmsi (double matrix containing all airfoil geometries separated into
     upper and lower surfaces and interpolated)
 
     Dependencies:

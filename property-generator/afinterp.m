@@ -18,6 +18,7 @@ function asdf = afinterp(af, method)
 
     Dependencies:
     - afsep.m
+    - getafdata.m
 
     Notes:
     - Functionally, this is a more feature rich version of afsep.m
@@ -29,7 +30,7 @@ function asdf = afinterp(af, method)
 
 %% Check if input is file path, convert to array if necessary
 if isstring(af) || ischar(af)
-    af = table2array(readtable(af));
+    af = getafdata(af);
 end
 
 %% Separate airfoil into lower and upper surfaces

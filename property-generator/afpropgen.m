@@ -1,7 +1,7 @@
-function asdf = afpropgen(af, naf, c, beta, opmode)
+function asdf = afpropgen(af, naf, c, beta)
 
 %{
-    Function: afpropgen(af, naf, c, beta, opmode)
+    Function: afpropgen(af, naf, c, beta)
 
     Purpose: Find section area moments of inertias in Z (flapwise) and Y
     (edgewise) directions AND product of inertia. Compatible with solid
@@ -12,12 +12,14 @@ function asdf = afpropgen(af, naf, c, beta, opmode)
     - naf (negative geometry)
     - c (chord at each span)
     - beta (twist at each span)
-    - opmode (operation mode)
 
     Returns:
+    - rR (non-dimensionalized radial position or span location)
     - IzzSX (flapwise area moment of inertia at radial/spanwise locations)
     - IyySX (edgewise ---------------------- " ----------------------)
     - IyzSX (product of inertia at radial/spanwise locations)
+    - c (chord, same as input)
+    - beta (twist, same as input)
 
     Dependencies:
     - afinterp.m (interpolates and separates single airfoil file)
@@ -49,12 +51,35 @@ function asdf = afpropgen(af, naf, c, beta, opmode)
 % - Do this for all airfoil sections along the blade/wing span
 
 %% Identify operation mode
-switch opmode
-    case 0 % self detect mode
-    case 1 % simple internal geometry (naf is single airfoil file)
-    case 2 % complex internal geometry (naf is dir path or struct)
-    case 3 % no negative space
-    case 4 % advanced user mode (FUNCTIONALITY TBD)
+% switch opmode
+%     case 0 % self detect mode
+%     case 1 % simple internal geometry (naf is single airfoil file)
+%     case 2 % complex internal geometry (naf is dir path or struct)
+%     case 3 % no negative space
+%     case 4 % advanced user mode (FUNCTIONALITY TBD)
+% end
+
+%% Check if af, c, or beta is a matrix or file path
+if isstring(af) || ischar(af)
+    af = strip(af, 'left', '/');
+    af = getafdata(af);
+end
+if isstring(c) || ischar(c)
+%     c = strip(c, 'left', '/');
+    c = getafdata(c);
+    c = [c(:,2), c(:,1)];
+end
+if isstring(beta) || ischar(beta)
+%     beta = strip(beta, 'left', '/');
+    beta = getafdata(beta);
+    beta = [beta(:,2), beta(:,1)];
+end
+
+%% Pseudo exception handling
+if max(size(c)) ~= max(size(beta))
+    disp('The sizes of c and beta do not match. Exiting function...')
+    asdf = [NaN, NaN, NaN, NaN];
+    return
 end
 
 %% Interpolate main, positive space airfoil file
@@ -62,11 +87,15 @@ method = "makima";
 afsi = afinterp(af, method);
 
 %% Load and process negative space
-if isstring(naf) % if naf is a file path
-    nafm = afloader(naf); % create airfoil matrix
-    nafmsi = afmatinterp(nafm, method); % separates and interpolates airfoil matrix
-elseif ismatrix(naf) % if naf is matrix (or single airfoil file)
+if ismatrix(naf)  && ~ischar(naf) % if naf is matrix (or single airfoil file)
     nafmsi = afmatinterp(naf, method);
+elseif isstring(naf) || ischar(naf) % if naf is a file path
+    if contains(naf, [".txt", ".csv", ".dat"])
+        nafmsi = afinterp(getafdata(naf), "makima");
+    else
+        nafm = afloader(naf); % create airfoil matrix
+        nafmsi = afmatinterp(nafm, method); % separates and interpolates airfoil matrix
+    end
 end
 numnaf = length(nafmsi(1,:))/4; % number of negative space files
 
@@ -74,6 +103,13 @@ numnaf = length(nafmsi(1,:))/4; % number of negative space files
 % define matrix sizes and loop iterations
 nj = length(afsi(:,1));
 span = max(size(c));
+
+% resolve r/R output variable
+if max(size(c)) == 1
+    rR = 0;
+else
+    rR = c(:, 2);
+end
 
 % separate airfoil geometry file into upper and lower surfaces
 upper = afsi(:, 1:2);
@@ -126,10 +162,10 @@ hold off
 for k=1:1:span
     
     %% Scale airfoil by chord length
-    upperc = upper.*c(k);
-    lowerc = lower.*c(k);
+    upperc = upper.*c(k, 1);
+    lowerc = lower.*c(k, 1);
     
-    nafmsic = nafmsi.*c(k); % negative space
+    nafmsic = nafmsi.*c(k, 1); % negative space
     
     %% Calculate rectangular moments of inertia and intermediate values
     %% Solid airfoil
@@ -209,15 +245,15 @@ for k=1:1:span
     IyzS(k) = cmoi(:, 3);
     
     %% Transform sectional product and moments of inertia
-    IzzSX(k) = (IyyS(k) + IzzS(k))/2 - (IyyS(k) - IzzS(k))/2*cos(2*beta(k))...
-        + IyzS(k)*sin(2*beta(k));
-    IyySX(k) = (IyyS(k) + IzzS(k))/2 + (IyyS(k) - IzzS(k))/2*cos(2*beta(k))...
-        - IyzS(k)*sin(2*beta(k));
+    IzzSX(k) = (IyyS(k) + IzzS(k))/2 - (IyyS(k) - IzzS(k))/2*cos(2*beta(k, 1))...
+        + IyzS(k)*sin(2*beta(k, 1));
+    IyySX(k) = (IyyS(k) + IzzS(k))/2 + (IyyS(k) - IzzS(k))/2*cos(2*beta(k, 1))...
+        - IyzS(k)*sin(2*beta(k, 1));
     
-    IyzSX(k) = (IyyS(k) -  IzzS(k))/2*sin(2*beta(k)) + IyzS(k)*cos(2*beta(k));
+    IyzSX(k) = (IyyS(k) -  IzzS(k))/2*sin(2*beta(k, 1)) + IyzS(k)*cos(2*beta(k, 1));
     
 end
 %% Debug
 
 %% Return
-asdf = [IzzSX, IyySX, IyzSX];
+asdf = [rR, IzzSX, IyySX, IyzSX, c(:,1), beta(:,1)];

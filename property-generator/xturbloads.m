@@ -24,6 +24,9 @@ function asdf = xturbloads(dirPath)
     TO DO:
 %}
 
+%% Prepare directory path
+dirPath = strip(dirPath, 'left', '/');
+
 %% Load .csv xturb files (created with xturbreader)
 csvfiles = dir(strcat(dirPath, "/*.csv"));
 cfiles = struct2cell(csvfiles);
