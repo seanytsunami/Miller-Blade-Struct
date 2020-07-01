@@ -1,4 +1,4 @@
-function xturbreader(filePath, opmode)
+function asdf = xturbreader(filePath)
 
 %{
     Function: xturbreader(filePath)
@@ -8,7 +8,9 @@ function xturbreader(filePath, opmode)
     Parameters:
     - filePath (string specifying file path of output file)
 
-    Returns: None, void function. Writes .csv to function working directory
+    Returns: 
+    - endtable (all data extracted, with headers)
+    - fileName (generated file name)
 
     Dependencies:
     - xturbparser.m
@@ -48,13 +50,13 @@ vwind = ["VWIND [m/s]", "RPM [1/m]", "PITCH [deg]"];
 predict = ["BRADIUS [m]", "RHOAIR [kg/m**3.]", "MUAIR [kg/(m*s)]"];
 
 %% Identify operation mode
-switch opmode
-    case 0 % self detect mode
-    case 1 % single input-ouput mode
-    case 2 % directory input ouput mode
-    case 3 % 
-    case 4 % 
-end
+% switch opmode
+%     case 0 % self detect mode
+%     case 1 % single input-ouput mode
+%     case 2 % directory input ouput mode
+%     case 3 % 
+%     case 4 % 
+% end
 
 %% Open file
 fid = fopen(f);
@@ -131,8 +133,10 @@ else
 end
 
 %% Add prediction parameters for Output1 (and is specific to output1)
-headers = [predict, headers];
-numbers = [predictlinesF, numbers];
+if s.fileType == 1
+    headers = [predict, headers];
+    numbers = [predictlinesF, numbers];
+end
 
 %% Finalize outputs
 endmatrix = [headers; numbers];
@@ -183,16 +187,21 @@ end
 
 %% Write endtable to .csv
 fileName = strcat(fileName, ".csv"); % file type
-writetable(endtable, fileName);
+% writetable(endtable, fileName);
+% 
+% % prints to validate working order
+% disp("xturbreader.m:");
+% disp(strcat("- Created ", fileName));
+% disp("done");
 
-% prints to validate working order
-disp("xturbreader.m:");
-disp(strcat("- Created ", fileName));
-disp("done");
+s.endtable = endtable;
+s.fileName = fileName;
 
 %% Close file
 fclose(fid);
 
 %% Debug
 
+%% Return
+asdf = s;
 end

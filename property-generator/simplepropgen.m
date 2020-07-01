@@ -85,6 +85,7 @@ Izzn = zeros(mid, 1); % moment of inertia for each rectangle
 Iyyn = zeros(mid, 1);
 
 An = zeros(mid-1, 1); % area for each rectangle
+TotASec = zeros(span, 1); % total area of airfoil section
 
 zbarn = zeros(mid-1, 1); % centroid for each rectangle
 ybarn = zeros(mid-1, 1);
@@ -136,6 +137,9 @@ ybar = 0;
     zbar = zbar/sum(An, 'all');
     ybar = ybar/sum(An, 'all');
     
+    %% Airfoil section area
+    TotASec(k) = sum(An, 'all');
+    
     %% Calculate total product and moments of inertia from composite rectangles
     for j=1:1:mid-1
         % calculate product of inertia
@@ -158,4 +162,4 @@ end
 %% Debug
 
 %% Return
-asdf = [rR, IzzSX, IyySX, IyzSX, c(:,1), beta(:,1)];
+asdf = [rR, IzzSX, IyySX, IyzSX, TotASec, c(:,1), beta(:,1)];

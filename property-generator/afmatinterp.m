@@ -25,7 +25,7 @@ function asdf = afmatinterp(afm, method)
 
 %% Initial variables
 % create empty separated airfoil matrix
-afmsi = NaN(1000, length(afm(1, :)*2));
+afmsi = NaN(1000, length(afm(1, :))*2);
 
 %% Separate airfoils in afm into upper/lower surfaces and interpolates
 index = 1; % index to allow for 4-column-wide loading of matrix

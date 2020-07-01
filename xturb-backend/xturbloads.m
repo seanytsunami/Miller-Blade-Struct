@@ -11,7 +11,7 @@ function asdf = xturbloads(dirPath)
     - dirPath (string specifying path of directory)
 
     Returns:
-    - ndc (non-dimensionalized chord)
+    - ndr (non-dimensionalized chord)
     - pnormal (normal force acting on blade)
     - ptangen (normal force acting on blade)
 
@@ -46,10 +46,11 @@ for j=1:1:length(fpfiles)
 end
 
 %% Extract relevant variables
-diskarea = pi.*out1(:, 1).^2;
+bradius = out1(:, 1);
+diskarea = pi.*bradius.^2;
 rho = out1(:, 2);
 vrel = out2(:, 1);
-ndc = out2(:, 10);
+ndr = out2(:, 10);
 cnormal = out2(:, 20);
 ctangen = out2(:, 21);
 
@@ -57,4 +58,4 @@ ctangen = out2(:, 21);
 pnormal = cnormal.*0.5.*rho.*(vrel).^2.*diskarea;
 ptangen = ctangen.*0.5.*rho.*(vrel).^2.*diskarea;
 
-asdf = [ndc, pnormal, ndc, ptangen];
+asdf = [ndr, pnormal, ptangen, rho, vrel, bradius];

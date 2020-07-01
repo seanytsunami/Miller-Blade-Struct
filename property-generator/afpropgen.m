@@ -87,7 +87,7 @@ method = "makima";
 afsi = afinterp(af, method);
 
 %% Load and process negative space
-if ismatrix(naf)  && ~ischar(naf) % if naf is matrix (or single airfoil file)
+if ismatrix(naf) && ~isstring(naf) && ~ischar(naf) % if naf is matrix (or single airfoil file)
     nafmsi = afmatinterp(naf, method);
 elseif isstring(naf) || ischar(naf) % if naf is a file path
     if contains(naf, [".txt", ".csv", ".dat"])
@@ -126,13 +126,14 @@ TotIyyn = zeros(nj, 1);
 An = zeros(nj-1, 1); % area for each rectangle
 nAmn = zeros(nj-1, numnaf); % area of negative space
 TotAn = zeros(nj-1, 1); % total area of composite rectangles
+TotASec = zeros(span, 1); % total area of airfoil section
 
 zbarn = zeros(nj-1, 1); % centroid for each rectangle
 ybarn = zeros(nj-1, 1);
 nzbarmn = zeros(nj-1, numnaf); % centroid of negative space
 nybarmn = zeros(nj-1, numnaf);
 Totzbarn = zeros(nj-1, 1); % centroid of composite rectangles
-Totybarn = zeros(nj-1, 1);
+Totybarn = zeros(span, 1);
 
 IzzS = zeros(span, 1); % total moments of inertia for each airfoil section
 IyyS = zeros(span, 1);
@@ -238,6 +239,9 @@ for k=1:1:span
         end
     end
     
+    %% Airfoil section area
+    TotASec(k) = sum(TotAn, 'all');
+    
     %% Calculate af section product and moments of inertia from composite rectangles
     cmoi = compositemoi(TotIzzn, TotIyyn, TotAn, Totzbarn, Totybarn);
     IzzS(k) = cmoi(:, 1);
@@ -256,4 +260,4 @@ end
 %% Debug
 
 %% Return
-asdf = [rR, IzzSX, IyySX, IyzSX, c(:,1), beta(:,1)];
+asdf = [rR, IzzSX, IyySX, IyzSX, TotASec, c(:,1), beta(:,1)];
