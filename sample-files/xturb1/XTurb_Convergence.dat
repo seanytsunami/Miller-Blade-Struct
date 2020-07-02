@@ -1,0 +1,21 @@
+
+ NREL-PhaseVI                           ***** XTurb-PSU  -  CONVERGENCE *****
+
+   This file lists any convergence issues during the solution process.
+   Problems are listed BELOW corresponding case number.
+
+   BEMT :  If NOTHING is listed below a case number, then NO problems
+           were found.
+
+   HVM  :  Lists convergence of CP and/or GAM and will say whether or
+           not convergence was achieved.
+
+
+        BLADE ELEMENT MOMENTUM THEORY (BEMT)   
+
+
+   Number   TSR      PITCH [deg]
+        1   5.4179   3.0000
+
+   Number   TSR      PITCH [deg]
+        2   5.4179   3.0000

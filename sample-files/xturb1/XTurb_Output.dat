@@ -1,0 +1,22 @@
+
+ NREL-PhaseVI                            ***** XTurb-PSU  -  OUTPUT *****
+   Blade Number      BN =  2
+
+   Solidity
+   0.0519
+                                  +    BLADE ELEMENT MOMENTUM THEORY (BEMT)   +
+ PREDICTION
+  Blade Radius     BRADIUS   =    5.03[m]
+  Air Density      RHOAIR    =    1.225[kg/m**3]
+  Air Dyn. Visc.   MUAIR     =    1.8E-005[kg/(m*s)]
+  Number of Cases  NPRE      =   2
+
+  Thrust           T = 0.5*RHOAIR*VWIND**2.*(pi*BRADIUS**2.)*CT
+  Power            P = 0.5*RHOAIR*VWIND**3.*(pi*BRADIUS**2.)*CP
+  Torque          TO = P / RPM
+  Bending Moment  BE = 0.5*RHOAIR*VWIND**2.*(pi*BRADIUS**2.)*BRADIUS*CB
+
+  Number  VWIND[m/s] RPM[1/min] TSR      PITCH[deg]    CT       CP       CB
+             T[N]            P[W]            TO[Nm]          BE[Nm]
+      1   7.0000     72.0000    5.4179   3.0000        0.4979  -0.3495  -0.1717       1187.8178      -5836.7701       -774.1257      -2060.5209
+      2   7.0000     72.0000    5.4179   3.0000        0.4979  -0.3495  -0.1717       1187.8178      -5836.7701       -774.1257      -2060.5209
