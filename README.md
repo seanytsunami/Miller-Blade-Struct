@@ -1,13 +1,15 @@
-# millerBEM2020
+# Miller-Blade-Struct
 
-**Pre-Release**
+**Beta v0.1.0**
 
 Miller lab structural code for turbine blades.
 
-Generates blade properties and calculates flapwise and edgewise deflections.
+Calculates blade properties, flapwise and edgewise deflections, and eigenmodes.
+
+Uses XTurb-PSU as a backend to extract aerodynamic loads and turbine properties
 
 ---
 
 ## Contributors
 
-- Sean J Wang <sjw5651@psu.edu>
+- Sean J Wang (<sjw5651@psu.edu>)
