@@ -96,8 +96,13 @@ for j=2:1:nj
     uzev(j,1:nj) = -V(n+1,1:nj);
 end
 
-%% Debug
+%% Load into struct
+s = struct;
+s.omegas = omegas;
+s.uyev = uyev;
+s.uzev = uzev;
 
+%% Debug
 V;
 D;
 D*ones(nj,1);
@@ -108,4 +113,5 @@ uyev;
 uzev;
 
 %% Return
-asdf = [omegas, uyev, uzev]; % returns [nj x 1, nj x nj, nj x nj]
+% asdf = [omegas, uyev, uzev]; % returns [nj x 1, nj x nj, nj x nj]
+asdf = s;
