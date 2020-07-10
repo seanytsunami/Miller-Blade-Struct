@@ -12,7 +12,7 @@
     </param.icons>
     <param.summary>Miller Lab code for turbine blade structures.</param.summary>
     <param.description />
-    <param.screenshot>/private/var/folders/y6/7mkk3jhs1w985_c2rpg77q_r0000gn/T/tp0feeb01a_5c4b_482b_b555_069b02338c87.png</param.screenshot>
+    <param.screenshot />
     <param.version>1.0</param.version>
     <param.products.name />
     <param.products.id />
@@ -25,6 +25,7 @@
       <param.email />
       <param.company />
       <param.description />
+      <param.screenshot />
       <param.version />
       <param.products.name />
       <param.products.id />

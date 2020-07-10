@@ -30,9 +30,13 @@ function asdf = bladestructgen(bladeprop, EE, m, pitch)
 
 %% Import matrices from inputs
 bladeprop = table2array(readtable(bladeprop));
-EE = getafdata(EE);
-m = getafdata(m);
 pitch = getafdata(pitch);
+if isstring(EE) || ischar(EE)
+    EE = getafdata(EE);
+end
+if isstring(m) || ischar(m)
+    m = getafdata(m);
+end
 
 %% Extracts important values from inputs
 EI1 = bladeprop(:,3).*EE(:,3);

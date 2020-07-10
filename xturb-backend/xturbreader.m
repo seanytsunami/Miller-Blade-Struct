@@ -26,8 +26,6 @@ function asdf = xturbreader(filePath)
         - for matrixloader, which can't tell the difference
         - will be important if xturbreader is changed to read all xturb
         output files
-    - Add operation modes to xturbreader.m (?)
-        - Allow user to specify where to save .csv
     - Clean up code and optimize algorithm in the long term
 %}
 
@@ -47,16 +45,7 @@ output3 = ["r/R", 'Chord/R', 'Twist [deg]', 'AOA [deg]', 'PHI [deg]',...
     'CL', 'CD', 'CL/CD', 'CThrust', 'CThrustV', 'CTorque', 'CTorqueV',...
     'CBending', 'CBendingV'];
 vwind = ["VWIND [m/s]", "RPM [1/m]", "PITCH [deg]"];
-predict = ["BRADIUS [m]", "RHOAIR [kg/m**3.]", "MUAIR [kg/(m*s)]"];
-
-%% Identify operation mode
-% switch opmode
-%     case 0 % self detect mode
-%     case 1 % single input-ouput mode
-%     case 2 % directory input ouput mode
-%     case 3 % 
-%     case 4 % 
-% end
+predict = ["BRADIUS [m]", "RHOAIR [kg/m**3]", "MUAIR [kg/(m*s)]"];
 
 %% Open file
 fid = fopen(f);
@@ -187,13 +176,8 @@ end
 
 %% Write endtable to .csv
 fileName = strcat(fileName, ".csv"); % file type
-% writetable(endtable, fileName);
-% 
-% % prints to validate working order
-% disp("xturbreader.m:");
-% disp(strcat("- Created ", fileName));
-% disp("done");
 
+%% Load endtable and filaName to structure
 s.endtable = endtable;
 s.fileName = fileName;
 

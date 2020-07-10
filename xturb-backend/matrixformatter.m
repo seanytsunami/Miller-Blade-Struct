@@ -20,10 +20,10 @@ function asdf = matrixformatter(lines, dlines, rstations)
     Dependencies:
 
     Notes:
+    - Remainder in loop rounds truncates counter to fill matrix based upon
+    rstations
 
     TO DO:
-    - Sean, you need to take 10 - 15 minutes to make comments on the voodoo
-    remainder bullshit in the loading loops
 %}
 
 %% Initial variables

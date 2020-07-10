@@ -33,14 +33,15 @@ counter = 0;
 % create empty matrix for data
 dlines = zeros(sum(datalog), nvars);
 
+% regex parameter for detecting doubles and asterisks
+dast = ('(\-?\d*\.\d*)|(\*+)');
+
 %% Scan through strlines and load doubles into dedicated matrix 
 for j=1:1:length(strlines(:,1))
     if datalog(j)
         counter = counter + 1;
         dlines(counter, :) =...
-            str2double(regexp(strlines(j),...
-            '\-?\d*\.\d*',...
-            'match')');
+            str2double(regexp(strlines(j), dast, 'match')');
     end
 end
 

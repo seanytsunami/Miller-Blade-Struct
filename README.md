@@ -1,6 +1,6 @@
 # Miller-Blade-Struct
 
-**Beta v0.1.0**
+## Description
 
 Miller lab structural code for turbine blades.
 

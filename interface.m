@@ -46,6 +46,37 @@ classdef interface
                 "Twist[rad]", "Mass[kg]"];
             blades = [header; bladestructgen(bladeprop, EE, m, pitch)];
         end
+        % bladestructgenusermat
+        function blades = bladestructgenusermat(bladeprop, EE, m, pitch)
+            addpath('blade-struct/');
+            header = ["x", "EI1", "EI2", "Pitch[rad]",...
+                "Twist[rad]", "Mass[kg]"];
+            bladepropt = table2array(readtable(bladeprop));
+            
+            % load values from material prop
+            EE = double(string(EE));
+            m = double(string(m));
+            EE2 = [bladepropt(:,1), ones(length(bladepropt(:,1)), 1).*EE,...
+                ones(length(bladepropt(:,1)), 1).*EE];
+            m2 = ones(length(bladepropt(:,1)),2);
+            
+            for j=1:1:length(bladepropt(:,1))
+                m2(j, 1) = bladepropt(j,1);
+                if length(bladepropt(:,1)) == 1
+%                     m2(j, 2) = NaN;
+                    m2(j, 2) = bladepropt(j, 5)*m;
+                elseif j == 1
+                    dA = (bladepropt(j, 5) + bladepropt(j+1, 5))/2;
+                    dx = (bladepropt(j+1, 1) - bladepropt(j, 1));
+                    m2(j, 2) = dA*dx*m;
+                else
+                    dA = (bladepropt(j, 5) + bladepropt(j-1, 5))/2;
+                    dx = (bladepropt(j, 1) - bladepropt(j-1, 1));
+                    m2(j, 2) = dA*dx*m;
+                end
+            end
+            blades = [header; bladestructgen(bladeprop, EE2, m2, pitch)];
+        end
         % deflecfxf
         function deflec = deflecfxf(bladestruct, xturbl)
             addpath('blade-struct/');
