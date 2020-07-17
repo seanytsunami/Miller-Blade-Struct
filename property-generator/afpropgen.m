@@ -144,20 +144,20 @@ IyySX = zeros(span, 1);
 IyzSX = zeros(span, 1); % xformed total poi for each airfoil section
 
 %% Plot all geometries to verify internal geometry
-plot(upper(:, 1), upper(:, 2), 'k')
-hold on
-plot(lower(:, 1), lower(:, 2), 'k')
-index = 1; % index to read 4-column-wide negative airfoil data
-for h=1:1:numnaf
-    hold on
-    plot(nafmsi(:, index), nafmsi(:, index+1), 'r-')
-    hold on
-    plot(nafmsi(:, index+2), nafmsi(:, index+3), 'r-')
-    
-    % increment index
-    index = index + 4;
-end
-hold off
+% plot(upper(:, 1), upper(:, 2), 'k')
+% hold on
+% plot(lower(:, 1), lower(:, 2), 'k')
+% index = 1; % index to read 4-column-wide negative airfoil data
+% for h=1:1:numnaf
+%     hold on
+%     plot(nafmsi(:, index), nafmsi(:, index+1), 'r-')
+%     hold on
+%     plot(nafmsi(:, index+2), nafmsi(:, index+3), 'r-')
+%     
+%     % increment index
+%     index = index + 4;
+% end
+% hold off
 
 %% Loop through spanwise/radial stations
 for k=1:1:span

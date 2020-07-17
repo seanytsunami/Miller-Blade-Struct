@@ -26,7 +26,6 @@ function asdf = xturbreader(filePath)
         - for matrixloader, which can't tell the difference
         - will be important if xturbreader is changed to read all xturb
         output files
-    - Clean up code and optimize algorithm in the long term
 %}
 
 %% Initial variables
@@ -92,7 +91,7 @@ end
 if s.fileType
     %% For output[1-3]
     % load bulk data (see headers)
-    dlines = matrixloader(tlines, s.output1logical, headersize);
+    dlines = matrixloader(tlines, s.outputlogical, headersize);
     
     % load output123 data (see header)
     O123lines = matrixloader(tlines, s.output123logical, 7);
@@ -121,7 +120,7 @@ else
     numbers = [output0lines];
 end
 
-%% Add prediction parameters for Output1 (and is specific to output1)
+%% Add prediction parameters for Output1 (specific to output1)
 if s.fileType == 1
     headers = [predict, headers];
     numbers = [predictlinesF, numbers];

@@ -14,7 +14,7 @@ function asdf = xturbparser(tlines, nlines)
     - struct s containing:
     - fileType (number from 0 to 3)
     - logical column vectors specifying data locations
-        - s.output1logical = outputLog;
+        - s.outputlogical = outputLog;
         - s.output123logical = output123Log;
         - s.vwindlogical = vwindLog;
         - s.predictionlogical = predictLog;
@@ -27,11 +27,8 @@ function asdf = xturbparser(tlines, nlines)
     - ONLY WORKS WITH PREDICTION MODE RIGHT NOW
 
     TO DO:
-    - investigate double detection vs int vs asterisk
-        - not sure if it will screw up and detect things it shouldn't
     - Differentiate radial stations from prediction mode test cases for
     output0 (see xturbreader)
-    - Optimize algorithm in the long term
 %}
 
 %% Identify type of xturb data file
@@ -69,7 +66,8 @@ outputHyphenLog = ~cellfun(@isempty,...
     'match')); % logical
 outputHyphenBin = double(outputHyphenLog);
 
-% create logical and binary array for identified bulk data
+% create logical and binary array for identified bulk data (actual lines
+% containing data)
 record = 0;
 for j=1:1:nlines
     % necessary check for array index
@@ -101,7 +99,7 @@ for j=1:1:nlines
 end
 output123Log = logical(output123Bin);
 
-% find entries with VWIND, RPM, PITCH
+% find entries containing VWIND, RPM, PITCH
 vwindLog = ~cellfun(@isempty,...
     regexp(tlines,'  VWIND ','match','once'));
 vwindBin = zeros(max(size(vwindLog)), 1);
@@ -142,6 +140,7 @@ output0Log = logical(output0Bin);
 
 %% Determine number of radial stations
 rstations = 0;
+cases = 0;
 if fileType
     for j=1:1:nlines % for output[1-3].dat
         if  (outputLog(j) && not(outputLog(j + 1)))
@@ -153,16 +152,18 @@ if fileType
     end
 else
     rstations = sum(double(output0Bin)); % for output0
+    cases = sum(double(output0Bin)); % for output0
 end
 
 %% Load parsed xturb data file into structure
 s.fileType = fileType;
-s.output1logical = outputLog;
+s.outputlogical = outputLog;
 s.output123logical = output123Log;
 s.vwindlogical = vwindLog;
 s.predictionlogical = predictLog;
 s.output0logical = output0Log;
 s.rstations = rstations;
+s.cases = cases;
 
 %% Debug
 

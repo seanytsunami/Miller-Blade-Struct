@@ -34,14 +34,14 @@ counter = 0;
 dlines = zeros(sum(datalog), nvars);
 
 % regex parameter for detecting doubles and asterisks
-dast = ('(\-?\d*\.\d*)|(\*+)');
+dbast = ('(\-?\d*\.\d*)|(\*+)');
 
 %% Scan through strlines and load doubles into dedicated matrix 
 for j=1:1:length(strlines(:,1))
     if datalog(j)
         counter = counter + 1;
         dlines(counter, :) =...
-            str2double(regexp(strlines(j), dast, 'match')');
+            str2double(regexp(strlines(j), dbast, 'match')');
     end
 end
 
