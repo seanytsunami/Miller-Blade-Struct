@@ -15,40 +15,40 @@ classdef interface
     methods(Static)
         % simplepropgen
         function prop = simplepropgen(af, c, beta)
-            addpath('property-generator/');
+            addpath(genpath('.'));
             header = ["r/R", "Izz[m^4]", "Iyy[m^4]", "Iyz[m^4]",...
                 "Area[m^2]", "Chord[m]", "Twist[Rad]"];
             prop = [header; simplepropgen(af, c, beta)];
         end
         % afpropgen
         function prop = afpropgen(af, naf, c, beta)
-            addpath('property-generator/');
+            addpath(genpath('.'));
             header = ["r/R", "Izz[m^4]", "Iyy[m^4]", "Iyz[m^4]",...
                 "Area[m^2]", "Chord[m]", "Twist[Rad]"];
             prop = [header; afpropgen(af, naf, c, beta)];
         end
         % xturbreader
         function xturbout = xturbreader(filePath)
-            addpath('xturb-backend/');
+            addpath(genpath('.'));
             xturbout = xturbreader(filePath);
         end
         % xturbloads
         function xturbl = xturbloads(dirPath)
-            addpath('xturb-backend/');
+            addpath(genpath('.'));
             header = ["r/R", "Fz[N]", "Fy[N]", "rho[kg/m^3]",...
                 "Vrel[m/s]", "Bradius[m]"];
             xturbl = [header; xturbloads(dirPath)];
         end
         % bladestructgen
         function blades = bladestructgen(bladeprop, EE, m, pitch)
-            addpath('blade-struct/');
+            addpath(genpath('.'));
             header = ["x", "EI1", "EI2", "Pitch[rad]",...
                 "Twist[rad]", "Mass[kg]"];
             blades = [header; bladestructgen(bladeprop, EE, m, pitch)];
         end
         % bladestructgenusermat
         function blades = bladestructgenusermat(bladeprop, EE, m, pitch)
-            addpath('blade-struct/');
+            addpath(genpath('.'));
             header = ["x", "EI1", "EI2", "Pitch[rad]",...
                 "Twist[rad]", "Mass[kg]"];
             bladepropt = table2array(readtable(bladeprop));
@@ -79,7 +79,7 @@ classdef interface
         end
         % deflecfxf
         function deflec = deflecfxf(bladestruct, xturbl)
-            addpath('blade-struct/');
+            addpath(genpath('.'));
             bs = table2array(readtable(bladestruct));
             xtl = table2array(readtable(xturbl));
             
@@ -91,11 +91,16 @@ classdef interface
         end
         % eigenmode
         function eigm = eigenmode(bladestruct)
-            addpath('blade-struct/');
+            addpath(genpath('.'));
             bs = table2array(readtable(bladestruct));
             
             eigm =  eigenmode(bs(:,1), bs(:,2), bs(:,3), bs(:,5),...
                 bs(:,4), bs(:,6));
+        end
+        function inpout = xturbinp(f)
+            addpath(genpath('.'));
+            
+            inpout = xturbinp(f);
         end
     end
     
@@ -118,7 +123,9 @@ classdef interface
             semicircles = "sample-files/negatives/semicircles/";
             xtout = "output";
             
+            inp = "sample-files/xturb1/NREL_VI.inp";
             
+            xtinp = interface.xturbinp(inp)
             %             eigm = interface.eigenmode(...
             %                 "output/Blade-Struct_EAl6061_circle_Complex_twist0to0_chord1to2.csv")
             %             xtl = interface.xturbloads(xtout)
