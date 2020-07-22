@@ -1,9 +1,36 @@
 function s = xturbinp(f)
 
+%{
+    Function: xturbinp(f)
+
+    Purpose: Extract data from XTurb input file
+
+    Parameters:
+    - f (string specifying file path of input file)
+
+    Returns: 
+    - Structure containing:
+    - s.name (airfoil name)
+    - s.ntaper (number of defined taper points)
+    - s.taperdistr (taper at defined points)
+    - s.taperdistrinterp (taper interpolated at radial stations)
+    - s.ntwist (same as above but for twist)
+    - s.twistdistr (-- " --)
+    - s.twistdistrinterp (-- " --)
+    - s.jx (no. of radial stations)
+    - s.cosdistr (type of distribution to use, 0 = linear, 1 = cosdistr)
+
+    Dependencies:
+
+    Notes:
+    - COMPATIBLE WITH XTurb-PSU-g77 ONLY [other versions untested]
+
+    TO DO:
+%}
+
 %% Initial variables
 s = struct;
 d2r = pi/180;
-r2d = 180/pi;
 
 %% Open file
 fid = fopen(f);
@@ -76,7 +103,7 @@ end
 
 %% Process
 s.name = erase(strrep(s.name, ' ', ""), ["Name=", "'", ","]);
-if s.cosdistr
+if s.cosdistr % interpolation type
     xqtaper = cosspace(min(s.taperdistr(:,1)), max(s.taperdistr(:,1)), s.jx);
     xqtwist = cosspace(min(s.twistdistr(:,1)), max(s.twistdistr(:,1)), s.jx);
 else

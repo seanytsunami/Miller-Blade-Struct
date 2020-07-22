@@ -20,7 +20,7 @@ function asdf = matrixformatter(lines, dlines, rstations)
     Dependencies:
 
     Notes:
-    - Remainder in loop rounds truncates counter to fill matrix based upon
+    - Remainder in loop rounds/truncates counter to fill matrix based upon
     rstations
 
     TO DO:
@@ -31,6 +31,8 @@ function asdf = matrixformatter(lines, dlines, rstations)
 flines = ones(length(dlines(:, 1)), length(lines(1, :)));
 
 %% Load data from lines into formatted flines matrix
+% remainder in loop rounds/truncates counter to fill matrix based upon
+% rstations
 for j=1:1:length(dlines(:, 1))
     if rem(j, rstations) == 0
         flines(j,:) = lines(j/rstations, :);

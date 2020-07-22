@@ -19,8 +19,6 @@ function asdf = matrixloader(tlines, datalog, nvars)
     Notes:
 
     TO DO:
-    - ADD SUPPORT FOR ASTERISKS IN XTURB OUTPUT
-        - integer support screws things up
 %}
 
 %% Initial variables

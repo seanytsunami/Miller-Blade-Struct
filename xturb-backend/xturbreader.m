@@ -23,9 +23,7 @@ function asdf = xturbreader(filePath)
     TO DO:
     - Differentiate radial stations from prediction mode test cases for
     output0
-        - for matrixloader, which can't tell the difference
-        - will be important if xturbreader is changed to read all xturb
-        output files
+        - would be important for naming, otherwise save for later
 %}
 
 %% Initial variables
