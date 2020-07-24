@@ -16,6 +16,7 @@ function asdf = deflecfxf(x, EI1, EI2, beta, v, py, pz)
     - pz (flapwise loads)
 
     Returns: 
+    - x (distance along blade)
     - uy (edgewise deflections)
     - uz (flapwise deflections)
     - My (edgewise moments)
@@ -86,9 +87,10 @@ for j=1:1:nj-1
     
     uy(j+1) = uy(j) + thetaz(j)*(x(j+1) - x(j)) + (1/6*kappaz(j+1)...
         + 1/3*kappaz(j))*(x(j+1) - x(j)).^2;
-    uz(j+1) = uz(j) - thetay(j)*(x(j+1) - x(j)) + (1/6*kappay(j+1)...
+    uz(j+1) = uz(j) - thetay(j)*(x(j+1) - x(j)) - (1/6*kappay(j+1)...
         + 1/3*kappay(j))*(x(j+1) - x(j)).^2;
 end
 
-%% Return
-asdf = [uy', uz', My', Mz', thetay', thetaz'];
+%% Return -- UY AND UZ, AND MY AND MZ ARE SWAPPED FOR V0.3.0
+% asdf = [x, uy', uz', My', Mz', thetay', thetaz'];
+asdf = [x, uz', uy', Mz', My', thetay', thetaz'];

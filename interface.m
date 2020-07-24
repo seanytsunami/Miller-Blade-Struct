@@ -2,8 +2,8 @@ classdef interface
     %{
     Class: interface
 
-    Purpose: Couples the GUI with all the function libraries associated
-    with Miller-Blade-Struct
+    Purpose: Couples the GUI with all the function associated with
+    Miller-Blade-Struct
 
     Notes:
     %}
@@ -83,7 +83,7 @@ classdef interface
             bs = table2array(readtable(bladestruct));
             xtl = table2array(readtable(xturbl));
             
-            header = ["uy[m]", "uz[m]", "My[Nm]",...
+            header = ["x", "uy[m]", "uz[m]", "My[Nm]",...
                 "Mz[Nm]", "Thetay[rad]", "Thetaz[rad]"];
             deflec = [header;...
                 deflecfxf(bs(:,1), bs(:,2), bs(:,3), bs(:,5), bs(:,4),...
@@ -99,7 +99,6 @@ classdef interface
         end
         function inpout = xturbinp(f)
             addpath(genpath('.'));
-            
             inpout = xturbinp(f);
         end
     end
@@ -125,13 +124,56 @@ classdef interface
             
             inp = "sample-files/xturb1/NREL_VI.inp";
             
-            xtinp = interface.xturbinp(inp)
-            %             eigm = interface.eigenmode(...
-            %                 "output/Blade-Struct_EAl6061_circle_Complex_twist0to0_chord1to2.csv")
-            %             xtl = interface.xturbloads(xtout)
-            %             pspg = interface.simplepropgen(rect, chord11, twist00)
-            %             papg = interface.afpropgen(circle, zl, 1, 0)
-            %             t = interface.xturbreader("sample-files/xturb1/XTurb_Output1.dat");
+%             xtinp = interface.xturbinp(inp)
+%             eigm = interface.eigenmode(...
+%                 "output/Blade-Struct_EAl6061_circle_Complex_twist0to0_chord1to2.csv")
+%             xtl = interface.xturbloads(xtout)
+%             pspg = interface.simplepropgen(rect, chord11, twist00)
+%             papg = interface.afpropgen(circle, zl, 1, 0)
+%             t = interface.xturbreader("sample-files/xturb1/XTurb_Output1.dat");
+        end
+        function out = validatedeflec()
+            s = struct;
+            clear; clc;
+            
+            nj = [5, 10, 20, 50, 100, 1000];
+            
+            for j=1:1:length(nj(1, :))
+                x = linspace(0, 1, nj(j))';
+                EI1 = ones(nj(j), 1)*0.048907;
+%                 EI1 = ones(nj(j), 1)*0.049067;
+%                 EI1 = ones(nj(j), 1)*1/4*pi*0.5^4;
+                EI2 = EI1;
+                beta = zeros(nj(j), 1);
+                v = beta;
+                py = v;
+                pz = ones(nj(j),1);
+                
+                s{j} = deflecfxf(x, EI1, EI2, beta, v, py, pz);
+            end
+            
+            % plot
+            figure('name', 'deflecfxf');
+            width=1400;
+            height=250;
+            set(gcf,'position',[100, 100, width, height]);
+            
+            for j=1:1:4
+                c = j+1;
+                t = linspace(0, 1, nj(c));
+                d = -1.*t.^2.*(6-4.*t+t.^4)./24./(1/4*pi*0.5^4);
+                
+                subplot(1,4,j)
+                plot(t, d, 'k')
+                hold on
+                plot(s{c}(:, 1), s{c}(:, 2), 'b');
+                yyaxis right
+                plot(t,abs(d' - s{c}(:, 2)), 'color', '#eba534');
+                title(strcat("n=", string(nj(c))));
+                legend({'Analytical', 'deflecfxf', 'Abs. Error'},...
+                    'location', 'west')
+            end
+            out = s;
         end
     end
 end

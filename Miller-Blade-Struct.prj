@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="440875614" file="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct/Miller-Blade-Struct.prj" location="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct" name="Miller-Blade-Struct" target="target.mlapps" target-name="Package App">
+  <configuration build-checksum="2634933681" file="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct/Miller-Blade-Struct.prj" location="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct" name="Miller-Blade-Struct" target="target.mlapps" target-name="Package App">
     <param.appname>Miller-Blade-Struct</param.appname>
     <param.authnamewatermark>Sean J. Wang</param.authnamewatermark>
     <param.email>sjw5651@psu.edu</param.email>
@@ -12,20 +12,19 @@
     </param.icons>
     <param.summary>Miller Lab code for turbine blade structures.</param.summary>
     <param.description />
-    <param.screenshot>/private/var/folders/y6/7mkk3jhs1w985_c2rpg77q_r0000gn/T/tp64ba6c14_0de4_4454_828e_7f051799ddf2.png</param.screenshot>
-    <param.version>1.0</param.version>
+    <param.screenshot>/private/var/folders/y6/7mkk3jhs1w985_c2rpg77q_r0000gn/T/tp5aae2233_a6cc_43bf_a1dc_f24e9f4bb796.png</param.screenshot>
+    <param.version>0.3.0</param.version>
     <param.products.name />
     <param.products.id />
     <param.products.version />
     <param.platforms />
-    <param.output>/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct-Resources/release-v0.2.0</param.output>
+    <param.output>/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct-Resources/release-v0.3.0</param.output>
     <param.guid>6bdef522-5ff9-4612-b4d6-31cbcfa9c1bf</param.guid>
     <unset>
       <param.authnamewatermark />
       <param.email />
       <param.company />
       <param.description />
-      <param.version />
       <param.products.name />
       <param.products.id />
       <param.products.version />
@@ -47,18 +46,20 @@
       <file>${PROJECT_ROOT}/property-generator/compositemoi.m</file>
       <file>${PROJECT_ROOT}/property-generator/getafdata.m</file>
       <file>${PROJECT_ROOT}/property-generator/simplepropgen.m</file>
+      <file>${PROJECT_ROOT}/xturb-backend/cosspace.m</file>
       <file>${PROJECT_ROOT}/xturb-backend/matrixformatter.m</file>
       <file>${PROJECT_ROOT}/xturb-backend/matrixloader.m</file>
+      <file>${PROJECT_ROOT}/xturb-backend/xturbinp.m</file>
       <file>${PROJECT_ROOT}/xturb-backend/xturbloads.m</file>
       <file>${PROJECT_ROOT}/xturb-backend/xturbparser.m</file>
       <file>${PROJECT_ROOT}/xturb-backend/xturbreader.m</file>
     </fileset.depfun>
     <fileset.resources>
-      <file>${PROJECT_ROOT}/resources</file>
+      <file>${PROJECT_ROOT}/Miller-Blade-Struct_resources</file>
     </fileset.resources>
     <fileset.package />
     <build-deliverables>
-      <file location="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct-Resources" name="release-v0.2.0" optional="false">/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct-Resources/release-v0.2.0</file>
+      <file location="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct-Resources" name="release-v0.3.0" optional="false">/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct-Resources/release-v0.3.0</file>
     </build-deliverables>
     <workflow />
     <matlab>
