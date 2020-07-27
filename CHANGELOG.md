@@ -3,8 +3,20 @@
 ## [Unreleased]
 - Add input field value checking at GUI
 - Add input value checking at interface.m
-- Add property generator geometry plotting
 - Fix input path forward-slash sensitivity
+
+## [v0.4.0] - 2020-7-27
+### Added
+- Add coupling for twist and chord switches in property-generator
+- Add geometry plotting for property-generator
+
+
+### Fixed
+- Fix endtable header construction in xturbreader.m
+
+### Changed
+- Change deflecfxf.m to output as table with header
+- Change afpropgen.m and simplepropgen.m to output as struct
 
 ## [v0.3.0] - 2020-07-24
 ### Added

@@ -16,16 +16,20 @@ classdef interface
         % simplepropgen
         function prop = simplepropgen(af, c, beta)
             addpath(genpath('.'));
-            header = ["r/R", "Izz[m^4]", "Iyy[m^4]", "Iyz[m^4]",...
-                "Area[m^2]", "Chord[m]", "Twist[Rad]"];
-            prop = [header; simplepropgen(af, c, beta)];
+%             header = ["r/R", "Izz[m^4]", "Iyy[m^4]", "Iyz[m^4]",...
+%                 "Area[m^2]", "Chord[m]", "Twist[Rad]"];
+%             prop = [header; simplepropgen(af, c, beta)];
+            prop = simplepropgen(af, c, beta);
         end
         % afpropgen
         function prop = afpropgen(af, naf, c, beta)
             addpath(genpath('.'));
-            header = ["r/R", "Izz[m^4]", "Iyy[m^4]", "Iyz[m^4]",...
-                "Area[m^2]", "Chord[m]", "Twist[Rad]"];
-            prop = [header; afpropgen(af, naf, c, beta)];
+%             header = ["r/R", "Izz[m^4]", "Iyy[m^4]", "Iyz[m^4]",...
+%                 "Area[m^2]", "Chord[m]", "Twist[Rad]"];
+%             prop = [header; afpropgen(af, naf, c, beta)];
+%             s = afpropgen(af, naf, c, beta);
+%             prop = s.afprop;
+            prop = afpropgen(af, naf, c, beta);
         end
         % xturbreader
         function xturbout = xturbreader(filePath)
@@ -63,7 +67,6 @@ classdef interface
             for j=1:1:length(bladepropt(:,1))
                 m2(j, 1) = bladepropt(j,1);
                 if length(bladepropt(:,1)) == 1
-%                     m2(j, 2) = NaN;
                     m2(j, 2) = bladepropt(j, 5)*m;
                 elseif j == 1
                     dA = (bladepropt(j, 5) + bladepropt(j+1, 5))/2;
@@ -83,11 +86,8 @@ classdef interface
             bs = table2array(readtable(bladestruct));
             xtl = table2array(readtable(xturbl));
             
-            header = ["x", "uy[m]", "uz[m]", "My[Nm]",...
-                "Mz[Nm]", "Thetay[rad]", "Thetaz[rad]"];
-            deflec = [header;...
-                deflecfxf(bs(:,1), bs(:,2), bs(:,3), bs(:,5), bs(:,4),...
-                xtl(:,3), xtl(:,2))];
+            deflec =  deflecfxf(bs(:,1), bs(:,2), bs(:,3), bs(:,5),...
+                bs(:,4),xtl(:,3), xtl(:,2));
         end
         % eigenmode
         function eigm = eigenmode(bladestruct)
@@ -133,8 +133,9 @@ classdef interface
 %             t = interface.xturbreader("sample-files/xturb1/XTurb_Output1.dat");
         end
         function out = validatedeflec()
-            s = struct;
             clear; clc;
+            addpath(genpath("."));
+%             s = struct;
             
             nj = [5, 10, 20, 50, 100, 1000];
             
@@ -149,7 +150,8 @@ classdef interface
                 py = v;
                 pz = ones(nj(j),1);
                 
-                s{j} = deflecfxf(x, EI1, EI2, beta, v, py, pz);
+                out = deflecfxf(x, EI1, EI2, beta, v, py, pz);
+                s{j} = double(out(2:end, :));
             end
             
             % plot
@@ -166,9 +168,9 @@ classdef interface
                 subplot(1,4,j)
                 plot(t, d, 'k')
                 hold on
-                plot(s{c}(:, 1), s{c}(:, 2), 'b');
+                plot(s{c}(:, 1), s{c}(:, 3), 'b');
                 yyaxis right
-                plot(t,abs(d' - s{c}(:, 2)), 'color', '#eba534');
+                plot(t,abs(d' - s{c}(:, 3)), 'color', '#eba534');
                 title(strcat("n=", string(nj(c))));
                 legend({'Analytical', 'deflecfxf', 'Abs. Error'},...
                     'location', 'west')
