@@ -1,4 +1,4 @@
-function asdf = simplepropgen(af, c, beta)
+function s = simplepropgen(af, c, beta)
 
 %{
     Function: propGenFoil(af, c, beta)
@@ -55,7 +55,7 @@ end
 %% Pseudo exception handling
 if max(size(c)) ~= max(size(beta))
     disp('The sizes of c and beta do not match. Exiting function...')
-    asdf = [NaN, NaN, NaN, NaN];
+    s = [NaN, NaN, NaN, NaN];
     return
 end
 
@@ -161,5 +161,12 @@ ybar = 0;
 end
 %% Debug
 
+%% Finalize outputs
+header = ["r/R", "Izz[m^4]", "Iyy[m^4]", "Iyz[m^4]",...
+                "Area[m^2]", "Chord[m]", "Twist[Rad]"];
+numbers = [rR, IzzSX, IyySX, IyzSX, TotASec, c(:,1), beta(:,1)];
+
 %% Return
-asdf = [rR, IzzSX, IyySX, IyzSX, TotASec, c(:,1), beta(:,1)];
+s.simpleprop = [header; numbers];
+s.af = af;
+s.afs = afs;

@@ -1,4 +1,4 @@
-function asdf = afpropgen(af, naf, c, beta)
+function s = afpropgen(af, naf, c, beta)
 
 %{
     Function: afpropgen(af, naf, c, beta)
@@ -50,15 +50,6 @@ function asdf = afpropgen(af, naf, c, beta)
 % - Account for sectional twist by using a coordinate system transformation
 % - Do this for all airfoil sections along the blade/wing span
 
-%% Identify operation mode
-% switch opmode
-%     case 0 % self detect mode
-%     case 1 % simple internal geometry (naf is single airfoil file)
-%     case 2 % complex internal geometry (naf is dir path or struct)
-%     case 3 % no negative space
-%     case 4 % advanced user mode (FUNCTIONALITY TBD)
-% end
-
 %% Check if af, c, or beta is a matrix or file path
 if isstring(af) || ischar(af)
     af = strip(af, 'left', '/');
@@ -78,7 +69,7 @@ end
 %% Pseudo exception handling
 if max(size(c)) ~= max(size(beta))
     disp('The sizes of c and beta do not match. Exiting function...')
-    asdf = [NaN, NaN, NaN, NaN];
+    s = NaN;
     return
 end
 
@@ -259,5 +250,13 @@ for k=1:1:span
 end
 %% Debug
 
+%% Final ouputs
+header = ["r/R", "Izz[m^4]", "Iyy[m^4]", "Iyz[m^4]",...
+                "Area[m^2]", "Chord[m]", "Twist[Rad]"];
+numbers = [rR, IzzSX, IyySX, IyzSX, TotASec, c(:,1), beta(:,1)];
+
 %% Return
-asdf = [rR, IzzSX, IyySX, IyzSX, TotASec, c(:,1), beta(:,1)];
+s.afprop = [header; numbers];
+s.af = af;
+s.afsi = afsi;
+s.nafmsi = nafmsi;
