@@ -30,19 +30,34 @@ function asdf = xturbreader(filePath)
 f = filePath;
 
 % define variable headers
-output0 = ["VWIND[m/s]", "RPM[1/min]", "TSR", "PITCH[deg]", "CT", "CP",...
-    "CB", "T[N]", "P[W]", "TO[Nm]", "BE[Nm]"];
-output123 = ["TSR", 'PITCH [deg]', 'CT', 'CP', 'CPV', 'CB', 'CBV'];
-output1 = ["r/R", 'Chord/R', 'Twist [deg]', 'AOA [deg]', 'PHI [deg]',...
+% output0 = ["VWIND[m/s]", "RPM[1/min]", "TSR", "PITCH[deg]", "CT", "CP",...
+%     "CB", "T[N]", "P[W]", "TO[Nm]", "BE[Nm]"];
+% output123 = ["TSR", 'PITCH [deg]', 'CT', 'CP', 'CPV', 'CB', 'CBV'];
+% output1 = ["r/R", 'Chord/R', 'Twist [deg]', 'AOA [deg]', 'PHI [deg]',...
+%     'CL',...
+%     'CD', 'CL/CD', 'VSEC', 'VSECX', 'VSECY', 'VSECZ', 'Re'];
+% output2 = ["r/R", 'Chord/R', 'Twist [deg]', 'AOA [deg]', 'CL', 'CD',...
+%     'CDP', 'CM', 'CThrust', 'CTorque', 'CNormal', 'CTangen'];
+% output3 = ["r/R", 'Chord/R', 'Twist [deg]', 'AOA [deg]', 'PHI [deg]',...
+%     'CL', 'CD', 'CL/CD', 'CThrust', 'CThrustV', 'CTorque', 'CTorqueV',...
+%     'CBending', 'CBendingV'];
+% vwind = ["VWIND [m/s]", "RPM [1/m]", "PITCH [deg]"];
+% predict = ["BRADIUS [m]", "RHOAIR [kg/m**3]", "MUAIR [kg/(m*s)]"];
+
+% define variable headers
+output0 = {'VWIND[m/s]', 'RPM[1/min]', 'TSR', 'PITCH[deg]', 'CT', 'CP',...
+    'CB', 'T[N]', 'P[W]', 'TO[Nm]', 'BE[Nm]'};
+output123 = {'TSR', 'PITCH [deg]', 'CT', 'CP', 'CPV', 'CB', 'CBV'};
+output1 = {'r/R', 'Chord/R', 'Twist [deg]', 'AOA [deg]', 'PHI [deg]',...
     'CL',...
-    'CD', 'CL/CD', 'VSEC', 'VSECX', 'VSECY', 'VSECZ', 'Re'];
-output2 = ["r/R", 'Chord/R', 'Twist [deg]', 'AOA [deg]', 'CL', 'CD',...
-    'CDP', 'CM', 'CThrust', 'CTorque', 'CNormal', 'CTangen'];
-output3 = ["r/R", 'Chord/R', 'Twist [deg]', 'AOA [deg]', 'PHI [deg]',...
+    'CD', 'CL/CD', 'VSEC', 'VSECX', 'VSECY', 'VSECZ', 'Re'};
+output2 = {'r/R', 'Chord/R', 'Twist [deg]', 'AOA [deg]', 'CL', 'CD',...
+    'CDP', 'CM', 'CThrust', 'CTorque', 'CNormal', 'CTangen'};
+output3 = {'r/R', 'Chord/R', 'Twist [deg]', 'AOA [deg]', 'PHI [deg]',...
     'CL', 'CD', 'CL/CD', 'CThrust', 'CThrustV', 'CTorque', 'CTorqueV',...
-    'CBending', 'CBendingV'];
-vwind = ["VWIND [m/s]", "RPM [1/m]", "PITCH [deg]"];
-predict = ["BRADIUS [m]", "RHOAIR [kg/m**3]", "MUAIR [kg/(m*s)]"];
+    'CBending', 'CBendingV'};
+vwind = {'VWIND [m/s]', 'RPM [1/m]', 'PITCH [deg]'};
+predict = {'BRADIUS [m]', 'RHOAIR [kg/m**3]', 'MUAIR [kg/(m*s)]'};
 
 %% Open file
 fid = fopen(f);
@@ -125,7 +140,7 @@ if s.fileType == 1
 end
 
 %% Finalize outputs
-endmatrix = [headers; numbers];
+% endmatrix = [headers; numbers];
 endtable = cell2table(num2cell(numbers),'VariableNames', headers);
 
 %% Prepare output .csv file name
