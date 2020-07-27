@@ -65,8 +65,10 @@ for j=nj:-1:2
     Ty(j-1) = Ty(j) + 1/2*(py(j-1) +py(j))*(x(j) -x(j-1));
     Tz(j-1) = Tz(j) + 1/2*(pz(j-1) +pz(j))*(x(j) -x(j-1));
     
-    My(j-1) = My(j) - Tz(j)*(x(j) -x(j-1)) - (1/6*pz(j-1) + 1/3*pz(j))*(x(j) -x(j-1)).^2;
-    Mz(j-1) = Mz(j) + Ty(j)*(x(j) -x(j-1)) + (1/6*py(j-1) + 1/3*py(j))*(x(j) -x(j-1)).^2;
+    My(j-1) = My(j) - Tz(j)*(x(j) -x(j-1)) - (1/6*pz(j-1)...
+        + 1/3*pz(j))*(x(j) -x(j-1)).^2;
+    Mz(j-1) = Mz(j) + Ty(j)*(x(j) -x(j-1)) + (1/6*py(j-1)...
+        + 1/3*py(j))*(x(j) -x(j-1)).^2;
 end
 
 
@@ -91,6 +93,12 @@ for j=1:1:nj-1
         + 1/3*kappay(j))*(x(j+1) - x(j)).^2;
 end
 
-%% Return -- UY AND UZ, AND MY AND MZ ARE SWAPPED FOR V0.3.0
+%% Finalize outputs
+% UY AND UZ, AND MY AND MZ ARE SWAPPED FOR V0.3.0
+header = ["x", "uy[m]", "uz[m]", "My[Nm]",...
+    "Mz[Nm]", "Thetay[rad]", "Thetaz[rad]"];
 % asdf = [x, uy', uz', My', Mz', thetay', thetaz'];
-asdf = [x, uz', uy', Mz', My', thetay', thetaz'];
+numbers = [x, uz', uy', Mz', My', thetay', thetaz'];
+
+%% Return
+asdf = [header; numbers];
