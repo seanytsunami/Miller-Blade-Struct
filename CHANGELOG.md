@@ -4,15 +4,19 @@
 - Add input field value checking at GUI
 - Add input value checking at interface.m
 
+## [v0.5.1] - 2021-1-21
+## Fixed
+- Fix airfoil name compatibility bug for XTurb v1.9 in xturbreader.m
+
 ## [v0.5.0] - 2021-1-21
+### Added
+- Add limited support for XTurb v1.9
+
 ### Fixed
 - Fix input path forward/back-slash sensitivity
 
 ### Changed
 - Output messages now flash blank for 5ms to reflect button presses
-
-### Added
-- Add limited support for XTurb v1.9
 
 ## [v0.4.0] - 2020-7-27
 ### Added
