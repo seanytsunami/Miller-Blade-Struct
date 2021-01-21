@@ -16,19 +16,11 @@ classdef interface
         % simplepropgen
         function prop = simplepropgen(af, c, beta)
             addpath(genpath('.'));
-%             header = ["r/R", "Izz[m^4]", "Iyy[m^4]", "Iyz[m^4]",...
-%                 "Area[m^2]", "Chord[m]", "Twist[Rad]"];
-%             prop = [header; simplepropgen(af, c, beta)];
             prop = simplepropgen(af, c, beta);
         end
         % afpropgen
         function prop = afpropgen(af, naf, c, beta)
             addpath(genpath('.'));
-%             header = ["r/R", "Izz[m^4]", "Iyy[m^4]", "Iyz[m^4]",...
-%                 "Area[m^2]", "Chord[m]", "Twist[Rad]"];
-%             prop = [header; afpropgen(af, naf, c, beta)];
-%             s = afpropgen(af, naf, c, beta);
-%             prop = s.afprop;
             prop = afpropgen(af, naf, c, beta);
         end
         % xturbreader
@@ -99,7 +91,7 @@ classdef interface
         end
         function inpout = xturbinp(f)
             addpath(genpath('.'));
-            inpout = xturbinp(f);
+            inpout = xturbinp(f);t
         end
     end
     
@@ -135,15 +127,15 @@ classdef interface
         function out = validatedeflec()
             clear; clc;
             addpath(genpath("."));
-%             s = struct;
+            k = 0.1; % multiplication factor
             
             nj = [5, 10, 20, 50, 100, 1000];
             
             for j=1:1:length(nj(1, :))
                 x = linspace(0, 1, nj(j))';
-                EI1 = ones(nj(j), 1)*0.048907;
+%                 EI1 = ones(nj(j), 1)*0.048907;
 %                 EI1 = ones(nj(j), 1)*0.049067;
-%                 EI1 = ones(nj(j), 1)*1/4*pi*0.5^4;
+                EI1 = ones(nj(j), 1)*1/4*pi*0.5^4;
                 EI2 = EI1;
                 beta = zeros(nj(j), 1);
                 v = beta;
@@ -155,27 +147,58 @@ classdef interface
             end
             
             % plot
-            figure('name', 'deflecfxf');
-            width=1400;
-            height=250;
-            set(gcf,'position',[100, 100, width, height]);
+%             figure('name', 'deflecfxf');
+%             width=1400;
+%             height=250;
+%             set(gcf,'position',[100, 100, width, height]);
             
-            for j=1:1:4
-                c = j+1;
-                t = linspace(0, 1, nj(c));
-                d = -1.*t.^2.*(6-4.*t+t.^4)./24./(1/4*pi*0.5^4);
-                
-                subplot(1,4,j)
-                plot(t, d, 'k')
-                hold on
-                plot(s{c}(:, 1), s{c}(:, 3), 'b');
-                yyaxis right
-                plot(t,abs(d' - s{c}(:, 3)), 'color', '#eba534');
-                title(strcat("n=", string(nj(c))));
-                legend({'Analytical', 'deflecfxf', 'Abs. Error'},...
-                    'location', 'west')
+            % deflections
+%             for j=1:1:4
+%                 c = j+1;
+%                 t = linspace(0, 1, nj(c));
+%                 d = -1.*t.^2.*(6-4.*t+t.^4)./24./(1/4*pi*0.5^4);
+% 
+%                 subplot(1,4,j)
+%                 plot(t, d, 'k')
+%                 hold on
+%                 plot(s{c}(:, 1), s{c}(:, 3), 'b');
+%                 ylabel('deflection [m]');
+%                 yyaxis right
+%                 plot(t,100*abs((d' - s{c}(:, 3))./d'), 'color', '#eba534');
+%                 title(strcat("n=", string(nj(c))));
+%                 legend({'Analytical', 'deflecfxf', 'Abs. % Error'},...
+%                     'location', 'west');
+%                 ylabel('Abs. error [%]');
+%                 xlabel('r [m]');
+%             end
+
+            % moments
+%             for j=1:1:4
+%                 c = j+1;
+%                 t = linspace(0, 1, nj(c));
+%                 d = -1*((1-t).^2)./2;
+%                 
+%                 subplot(1,4,j)
+%                 plot(t, d, 'linewidth', 0.75, 'color', 'black')
+%                 hold on
+%                 plot(s{c}(:, 1), s{c}(:, 5), 'bo');
+%                 ylabel('M [Nm]');
+%                 yyaxis right
+%                 plot(t,100*abs(d' - s{c}(:, 5))./d',...
+%                     'color', '#eba534');
+%                 title(strcat("n=", string(nj(c))));
+%                 legend({'Analytical', 'deflecfxf', 'Abs. % Error'},...
+%                     'location', 'west');
+%                 ylabel('Abs. error [%]');
+%                 xlabel('r [m]');
+%             end
+            
+%             out = s;
+            
+            for j=1:1:max(size(s))
+                k(j) = s{j}(end,7);
             end
-            out = s;
+            out = k';
         end
     end
 end

@@ -3,13 +3,21 @@
 ## [Unreleased]
 - Add input field value checking at GUI
 - Add input value checking at interface.m
-- Fix input path forward-slash sensitivity
+
+## [v0.5.0] - 2021-1-21
+### Fixed
+- Fix input path forward/back-slash sensitivity
+
+### Changed
+- Output messages now flash blank for 5ms to reflect button presses
+
+### Added
+- Add limited support for XTurb v1.9
 
 ## [v0.4.0] - 2020-7-27
 ### Added
 - Add coupling for twist and chord switches in property-generator
 - Add geometry plotting for property-generator
-
 
 ### Fixed
 - Fix endtable header construction in xturbreader.m

@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="3152009553" file="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct/Miller-Blade-Struct.prj" location="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct" name="Miller-Blade-Struct" target="target.mlapps" target-name="Package App">
+  <configuration build-checksum="2453243472" file="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct/Miller-Blade-Struct.prj" location="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct" name="Miller-Blade-Struct" target="target.mlapps" target-name="Package App">
     <param.appname>Miller-Blade-Struct</param.appname>
     <param.authnamewatermark>Sean J. Wang</param.authnamewatermark>
     <param.email>sjw5651@psu.edu</param.email>
@@ -11,20 +11,19 @@
       <file>${PROJECT_ROOT}/Miller-Blade-Struct_resources/icon_16.png</file>
     </param.icons>
     <param.summary>Miller Lab code for turbine blade structures.</param.summary>
-    <param.description />
-    <param.screenshot>/private/var/folders/y6/7mkk3jhs1w985_c2rpg77q_r0000gn/T/tpc8cca843_05d5_4af3_8323_b24959ccfd05.png</param.screenshot>
-    <param.version>0.4.0</param.version>
+    <param.description>UNOFFICIAL V0.5.0 FOR TESTING PURPOSES</param.description>
+    <param.screenshot>/private/var/folders/y6/7mkk3jhs1w985_c2rpg77q_r0000gn/T/tpec5d9890_24f8_40b6_beb9_de0c2d2bcd47.png</param.screenshot>
+    <param.version>0.5.0</param.version>
     <param.products.name />
     <param.products.id />
     <param.products.version />
     <param.platforms />
-    <param.output>/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct-Resources/release-v0.4.0</param.output>
+    <param.output>/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct-Resources/unofficial-v0.5.0</param.output>
     <param.guid>6bdef522-5ff9-4612-b4d6-31cbcfa9c1bf</param.guid>
     <unset>
       <param.authnamewatermark />
       <param.email />
       <param.company />
-      <param.description />
       <param.products.name />
       <param.products.id />
       <param.products.version />
@@ -59,7 +58,7 @@
     </fileset.resources>
     <fileset.package />
     <build-deliverables>
-      <file location="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct-Resources" name="release-v0.4.0" optional="false">/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct-Resources/release-v0.4.0</file>
+      <file location="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct-Resources" name="unofficial-v0.5.0" optional="false">/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct-Resources/unofficial-v0.5.0</file>
     </build-deliverables>
     <workflow />
     <matlab>

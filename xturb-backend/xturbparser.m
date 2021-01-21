@@ -142,7 +142,7 @@ output0Log = logical(output0Bin);
 rstations = 0;
 cases = 0;
 if fileType
-    for j=1:1:nlines % for output[1-3].dat
+    for j=1:1:nlines - 1 % for output[1-3].dat
         if  (outputLog(j) && not(outputLog(j + 1)))
             rstations = rstations + 1;
             break
@@ -150,6 +150,7 @@ if fileType
             rstations = rstations + 1;
         end
     end
+    rstations = rstations + 1;
 else
     rstations = sum(double(output0Bin)); % for output0
     cases = sum(double(output0Bin)); % for output0
