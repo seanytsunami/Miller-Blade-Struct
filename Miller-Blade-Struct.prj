@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="2453243472" file="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct/Miller-Blade-Struct.prj" location="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct" name="Miller-Blade-Struct" target="target.mlapps" target-name="Package App">
+  <configuration build-checksum="2239919265" file="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct/Miller-Blade-Struct.prj" location="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct" name="Miller-Blade-Struct" target="target.mlapps" target-name="Package App">
     <param.appname>Miller-Blade-Struct</param.appname>
     <param.authnamewatermark>Sean J. Wang</param.authnamewatermark>
     <param.email>sjw5651@psu.edu</param.email>
@@ -11,19 +11,20 @@
       <file>${PROJECT_ROOT}/Miller-Blade-Struct_resources/icon_16.png</file>
     </param.icons>
     <param.summary>Miller Lab code for turbine blade structures.</param.summary>
-    <param.description>UNOFFICIAL V0.5.0 FOR TESTING PURPOSES</param.description>
-    <param.screenshot>/private/var/folders/y6/7mkk3jhs1w985_c2rpg77q_r0000gn/T/tpec5d9890_24f8_40b6_beb9_de0c2d2bcd47.png</param.screenshot>
+    <param.description />
+    <param.screenshot>/private/var/folders/y6/7mkk3jhs1w985_c2rpg77q_r0000gn/T/tp95a0f762_3a42_4d4d_a5ce_3260528d9c7a.png</param.screenshot>
     <param.version>0.5.0</param.version>
     <param.products.name />
     <param.products.id />
     <param.products.version />
     <param.platforms />
-    <param.output>/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct-Resources/unofficial-v0.5.0</param.output>
+    <param.output>/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct-Resources</param.output>
     <param.guid>6bdef522-5ff9-4612-b4d6-31cbcfa9c1bf</param.guid>
     <unset>
       <param.authnamewatermark />
       <param.email />
       <param.company />
+      <param.description />
       <param.products.name />
       <param.products.id />
       <param.products.version />
@@ -33,32 +34,14 @@
       <file>${PROJECT_ROOT}/interfaceapp.mlapp</file>
     </fileset.main>
     <fileset.depfun>
-      <file>${PROJECT_ROOT}/blade-struct/bladestructgen.m</file>
-      <file>${PROJECT_ROOT}/blade-struct/deflecfxf.m</file>
-      <file>${PROJECT_ROOT}/blade-struct/eigenmode.m</file>
       <file>${PROJECT_ROOT}/interface.m</file>
-      <file>${PROJECT_ROOT}/property-generator/afinterp.m</file>
-      <file>${PROJECT_ROOT}/property-generator/afloader.m</file>
-      <file>${PROJECT_ROOT}/property-generator/afmatinterp.m</file>
-      <file>${PROJECT_ROOT}/property-generator/afpropgen.m</file>
-      <file>${PROJECT_ROOT}/property-generator/afsep.m</file>
-      <file>${PROJECT_ROOT}/property-generator/compositemoi.m</file>
-      <file>${PROJECT_ROOT}/property-generator/getafdata.m</file>
-      <file>${PROJECT_ROOT}/property-generator/simplepropgen.m</file>
-      <file>${PROJECT_ROOT}/xturb-backend/cosspace.m</file>
-      <file>${PROJECT_ROOT}/xturb-backend/matrixformatter.m</file>
-      <file>${PROJECT_ROOT}/xturb-backend/matrixloader.m</file>
-      <file>${PROJECT_ROOT}/xturb-backend/xturbinp.m</file>
-      <file>${PROJECT_ROOT}/xturb-backend/xturbloads.m</file>
-      <file>${PROJECT_ROOT}/xturb-backend/xturbparser.m</file>
-      <file>${PROJECT_ROOT}/xturb-backend/xturbreader.m</file>
     </fileset.depfun>
     <fileset.resources>
       <file>${PROJECT_ROOT}/Miller-Blade-Struct_resources</file>
     </fileset.resources>
     <fileset.package />
     <build-deliverables>
-      <file location="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct-Resources" name="unofficial-v0.5.0" optional="false">/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct-Resources/unofficial-v0.5.0</file>
+      <file location="/Users/seanwang/Documents/MATLAB" name="Miller-Blade-Struct-Resources" optional="false">/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct-Resources</file>
     </build-deliverables>
     <workflow />
     <matlab>
@@ -74,7 +57,7 @@
       <vista>false</vista>
       <linux>false</linux>
       <solaris>false</solaris>
-      <osver>10.15.6</osver>
+      <osver>10.16</osver>
       <os32>false</os32>
       <os64>true</os64>
       <arch>maci64</arch>
