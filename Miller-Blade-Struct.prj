@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="2239919265" file="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct/Miller-Blade-Struct.prj" location="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct" name="Miller-Blade-Struct" target="target.mlapps" target-name="Package App">
+  <configuration build-checksum="3204435037" file="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct/Miller-Blade-Struct.prj" location="/Users/seanwang/Documents/MATLAB/Miller-Blade-Struct" name="Miller-Blade-Struct" target="target.mlapps" target-name="Package App">
     <param.appname>Miller-Blade-Struct</param.appname>
     <param.authnamewatermark>Sean J. Wang</param.authnamewatermark>
     <param.email>sjw5651@psu.edu</param.email>
@@ -12,8 +12,8 @@
     </param.icons>
     <param.summary>Miller Lab code for turbine blade structures.</param.summary>
     <param.description />
-    <param.screenshot>/private/var/folders/y6/7mkk3jhs1w985_c2rpg77q_r0000gn/T/tp95a0f762_3a42_4d4d_a5ce_3260528d9c7a.png</param.screenshot>
-    <param.version>0.5.0</param.version>
+    <param.screenshot>/private/var/folders/y6/7mkk3jhs1w985_c2rpg77q_r0000gn/T/tp30e054f8_bd76_4134_87c4_fbb1710b8af7.png</param.screenshot>
+    <param.version>0.5.1</param.version>
     <param.products.name />
     <param.products.id />
     <param.products.version />

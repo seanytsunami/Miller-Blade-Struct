@@ -155,7 +155,7 @@ end
 
 % identify airfoil name
 afline = ~cellfun(@isempty,...
-    regexp(tlines,'***** XTurb-PSU ','match','once'));
+    regexp(tlines,'***** XTurb','match','once'));
 for j=1:1:nlines
     if afline(j)
         afchar = regexp(string(tlines(j)),'[^\s]','match')';
